@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "postinstall": "npm run build",
     "serve-heroku": "vite --host 127.0.0.1 --port $PORT preview",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
