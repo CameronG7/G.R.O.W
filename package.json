@@ -7,12 +7,13 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "postinstall": "npm run build",
-    "serve-heroku": "vite --host 0.0.0.0 --port $PORT preview",
+    "serve-heroku": "vite --host 127.0.0.1 --port $PORT preview",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
-    
+    "preview": "vite preview",
+    "start": "npm run preview"
   },
   "dependencies": {
+    "cool-ascii-faces": "^1.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
