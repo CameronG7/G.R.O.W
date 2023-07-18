@@ -1,31 +1,26 @@
 const { Schema } = require('mongoose');
 
-// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `savedBooks` array in User.js
+// Defining the Plant schema
 const plantSchema = new Schema({
-  authors: [
-    {
-      type: String,
-    },
-  ],
-  description: {
-    type: String,
-    required: true,
-  },
-  // saved book id from GoogleBooks
   plantId: {
-    type: String,
+    type: String, 
     required: true,
-  },
-  image: {
+  }, 
+  commonName: {
+    type: String, 
+  }, 
+  scientificName: {
     type: String,
-  },
-  link: {
+  }, 
+  img: {
     type: String,
-  },
-  title: {
+  }, 
+  watering: {
     type: String,
-    required: true,
+  }, 
+  sunlight: {
+    type: String,
   },
 });
 
-module.exports = plantSchemaSchema;
+module.exports = plantSchema;
