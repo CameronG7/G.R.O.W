@@ -2,8 +2,10 @@ const { AuthenticationError } = require("apollo-server-express");
 const { User } = require("../models");
 const { signToken } = require("../utils/auth");
 
+// Defining resolvers for User and Plant
 const resolvers = {
   Query: {
+    // Get the user that is signed in
     getMe: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id });
@@ -11,6 +13,8 @@ const resolvers = {
       }
       throw new AuthenticationError("Not logged in");
     },
+
+    // Get the garden of the user that is signed in
     getGarden: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
@@ -19,16 +23,21 @@ const resolvers = {
       }
       throw new AuthenticationError("Not logged in");
     },
+
+    // Get all users (for testing)
     getAllUsers: async () => {
       return User.find();
     },
   },
   Mutation: {
+    // Add a new user
     addUser: async (parent, { username, email, password }) => {
       const newUser = await User.create({ username, email, password });
       const token = signToken(newUser);
       return { token, newUser };
     },
+
+    // Login a user
     login: async (parent, { username, password }) => {
       const user = await User.findOne({ username });
 
@@ -47,6 +56,8 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+
+    // Save a plant to the user's garden
     savePlant: async (parent, { input }, context) => {
       if (context.user) {
         const updatedPlant = await User.findOneAndUpdate(
@@ -59,6 +70,8 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+
+    // Remove a plant from the user's garden
     removePlant: async (parent, { plantId }, context) => {
       if (context.user) {
         const updatedPlant = await User.findOneAndUpdate(

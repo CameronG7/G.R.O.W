@@ -1,5 +1,6 @@
 const { Schema } = require('mongoose');
 
+// Defining the Plant schema
 const plantSchema = new Schema({
   plantId: {
     type: String, 
