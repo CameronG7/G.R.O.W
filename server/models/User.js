@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 // import schema from Plant.js
 const plantSchema = require('./Plant');
 
+// Defining the User schema
 const userSchema = new Schema(
   {
     username: {
