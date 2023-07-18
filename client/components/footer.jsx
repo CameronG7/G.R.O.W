@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-
+import { Footer } from 'react-bootstrap';
 
 function Footer() {
   return (
