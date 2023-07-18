@@ -8,7 +8,10 @@
 
     "watch": "nodemon server.js"
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 85e92c4d86e04be39898125af751619007481928
   "keywords": [],
   "author": "",
   "license": "ISC",
