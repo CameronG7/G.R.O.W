@@ -18,11 +18,12 @@ const AppNavbar = () => {
       <Navbar
         bg='dark'
         variant='dark'
-        expand='sm'
+        expand='lg'
         style={{
           border: '6px solid black',
           backgroundImage: `url(${backgroundImage})`, // Set the background image
-          backgroundSize: 'cover', // Adjust the image size to cover the Navbar
+          backgroundSize: 'cover',
+          backgroundPosition: 'center', // Adjust the image size to cover the Navbar
         }}
       >
         {/* Add 'border' style to create a black border around the navbar and set the background color */}
@@ -35,7 +36,7 @@ const AppNavbar = () => {
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
-              <Nav.Link as={Link} to='/'>
+              <Nav.Link as={Link} to='/' style={{ color: 'black', fontSize: '35px'}}>
                 Home
               </Nav.Link>
               {/* if user is logged in show saved books and logout */}
@@ -47,7 +48,7 @@ const AppNavbar = () => {
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>
               ) : (
-                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
+                <Nav.Link onClick={() => setShowModal(true)} style={{ color: 'black', fontSize: '35px' }} >Login/Sign Up</Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>
