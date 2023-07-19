@@ -98,9 +98,9 @@ const SearchBooks = () => {
 
   return (
     <>
-      <div className="text-light bg-dark p-5">
-        <Container>
-          <h1>Search for Books!</h1>
+      <div className="text-light bg-dark p-5" style={{ backgroundColor: '177A67'}}>
+        <Container id='container'>
+          <h1>Search for your Plant!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Row>
               <Col xs={12} md={8}>
@@ -115,7 +115,7 @@ const SearchBooks = () => {
               </Col>
               <Col xs={12} md={4}>
                 <Button type='submit' variant='success' size='lg'>
-                  Submit Search
+                  Plant Search
                 </Button>
               </Col>
             </Row>
@@ -127,7 +127,7 @@ const SearchBooks = () => {
         <h2 className='pt-5'>
           {searchedBooks.length
             ? `Viewing ${searchedBooks.length} results:`
-            : 'Search for a book to begin'}
+            : 'Search your Plant!'}
         </h2>
         <Row>
           {searchedBooks.map((book) => {

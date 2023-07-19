@@ -6,28 +6,43 @@ import LoginForm from './LoginForm';
 
 import Auth from '../utils/auth';
 
+// Import your background image
+import backgroundImage from '../assets/pexels-jonathan-borba-3263716.jpg';
+
 const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <Navbar bg='dark' variant='dark' expand='lg'>
+      <Navbar
+        bg='dark'
+        variant='dark'
+        expand='sm'
+        style={{
+          border: '6px solid black',
+          backgroundImage: `url(${backgroundImage})`, // Set the background image
+          backgroundSize: 'cover', // Adjust the image size to cover the Navbar
+        }}
+      >
+        {/* Add 'border' style to create a black border around the navbar and set the background color */}
         <Container fluid>
-          <Navbar.Brand as={Link} to='/'>
-            Google Books Search
+          <Navbar.Brand as={Link} to='/' className="d-flex align-items-center">
+            <span id='title' style={{ fontFamily: 'Indie Flower, cursive', fontSize: '50px', fontWeight: '600', margin: '0', color: '#17706e' }}>
+              GROW
+            </span>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
               <Nav.Link as={Link} to='/'>
-                Search For Books
+                Home
               </Nav.Link>
               {/* if user is logged in show saved books and logout */}
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to='/saved'>
-                    See Your Books
+                    See Your Plants
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>
