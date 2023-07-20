@@ -3,8 +3,8 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { setContext } from '@apollo/client/link/context';
 
-import SearchBooks from './pages/SearchBooks';
-import SavedBooks from './pages/SavedBooks';
+import SearchPlants from './pages/SearchPlants';
+import SavedPlants from './pages/SavedPlants';
 import Navbar from './components/Navbar';
 
 
@@ -39,11 +39,11 @@ function App() {
           <Routes>
             <Route
               path='/'
-              element={<SearchBooks />}
+              element={<SearchPlants />}
             />
             <Route
               path='/saved'
-              element={<SavedBooks />}
+              element={<SavedPlants />}
             />
             <Route
               path='*'

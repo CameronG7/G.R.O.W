@@ -9,29 +9,29 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { searchGoogleBooks } from '../utils/API';
-import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+
+import { savePlantIds, getSavedPlantIds } from '../utils/localStorage';
 
 import { useMutation } from '@apollo/client';
-import { SAVE_BOOK } from '../utils/mutations';
+import { SAVE_PLANT } from '../utils/mutations'; //
 
 
-const SearchBooks = () => {
+const SearchPlants = () => {
   
   // create state for holding returned google api data
-  const [searchedBooks, setSearchedBooks] = useState([]);
+  const [searchedPlants, setSearchedPlants] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
 
   // create state to hold saved bookId values
-  const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+  const [savedPlantIds, setSavedPlantIds] = useState(getSavedPlantIds());
 
-  const [saveBook, { error }] = useMutation(SAVE_BOOK)
+  const [savePlant, { error }] = useMutation(SAVE_PLANT)
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
-    return () => saveBookIds(savedBookIds);
+    return () => savePlantIds(savedPlantIds);
   });
 
   // create method to search for books and set state on form submit
@@ -43,24 +43,25 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await searchGoogleBooks(searchInput);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
+      const response = fetch(`https://perenual.com/api/species-list?key=sk-MjnD64b5f8c806d741583&q=${searchInput}`)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
+      console.log(response);
       const { items } = await response.json();
-
-      const bookData = items.map((book) => ({
-        bookId: book.id,
-        authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || '',
-      }));
-
-      setSearchedBooks(bookData);
-      console.log(bookData)
+      console.log(items);
+      const plantData = '';
+      // const plantData = items.map((book) => ({
+      //   bookId: book.id,
+      //   authors: book.volumeInfo.authors || ['No author to display'],
+      //   title: book.volumeInfo.title,
+      //   description: book.volumeInfo.description,
+      //   image: book.volumeInfo.imageLinks?.thumbnail || '',
+      // }));
+      setSearchedBooks(plantData);
+      console.log(plantData)
       setSearchInput('');
     } catch (err) {
       console.error(err);
@@ -68,9 +69,9 @@ const SearchBooks = () => {
   };
 
   // create function to handle saving a book to our database
-  const handleSaveBook = async (bookId) => {
+  const handleSavePlant = async (plantId) => {
     // find the book in `searchedBooks` state by the matching id
-    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+    const plantToSave = searchedPlants.find((plant) => plant.plantId === plantId);
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -81,8 +82,8 @@ const SearchBooks = () => {
 
     try {
       
-      const {data} = await saveBook({
-        variables: { input: { ...bookToSave }} 
+      const {data} = await savePlant({
+        variables: { input: { ...plantToSave }} 
       });
       
       if (!data) {
@@ -90,7 +91,7 @@ const SearchBooks = () => {
       }
 
       // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookId]);
+      setSavedPlantIds([...savedPlantIds, plantId]);
     } catch (err) {
       console.error(err);
     }
@@ -100,7 +101,7 @@ const SearchBooks = () => {
     <>
       <div className="text-light bg-dark p-5">
         <Container>
-          <h1>Search for Books!</h1>
+          <h1>Search for Plants!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Row>
               <Col xs={12} md={8}>
@@ -110,7 +111,7 @@ const SearchBooks = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
-                  placeholder='Search for a book'
+                  placeholder='Search for a plant'
                 />
               </Col>
               <Col xs={12} md={4}>
@@ -125,30 +126,30 @@ const SearchBooks = () => {
 
       <Container>
         <h2 className='pt-5'>
-          {searchedBooks.length
-            ? `Viewing ${searchedBooks.length} results:`
-            : 'Search for a book to begin'}
+          {searchedPlants.length
+            ? `Viewing ${searchedPlants.length} results:`
+            : 'Search for a plant to begin'}
         </h2>
         <Row>
-          {searchedBooks.map((book) => {
+          {searchedPlants.map((plant) => {
             return (
-              <Col key={book.bookId} md="4">
-                <Card key={book.bookId} border='dark'>
-                  {book.image ? (
-                    <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
+              <Col key={plant.plantId} md="4">
+                <Card key={plant.plantId} border='dark'>
+                  {plant.image ? (
+                    <Card.Img src={plant.image} alt={`The cover for ${plant.title}`} variant='top' />
                   ) : null}
                   <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors}</p>
-                    <Card.Text>{book.description}</Card.Text>
+                    <Card.Title>{plant.title}</Card.Title>
+                    <p className='small'>Authors: {plant.authors}</p>
+                    <Card.Text>{plant.description}</Card.Text>
                     {Auth.loggedIn() && (
                       <Button
-                        disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
+                        disabled={savedPlantIds?.some((savedPlantId) => savedPlantId === plant.plantId)}
                         className='btn-block btn-info'
-                        onClick={() => handleSaveBook(book.bookId)}>
-                        {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
-                          ? 'This book has already been saved!'
-                          : 'Save this Book!'}
+                        onClick={() => handleSavePlant(plant.plantId)}>
+                        {savedPlantIds?.some((savedPlantId) => savedPlantId === plant.plantId)
+                          ? 'This plant has already been saved!'
+                          : 'Save this shit!'}
                       </Button>
                     )}
                   </Card.Body>
@@ -162,4 +163,4 @@ const SearchBooks = () => {
   );
 };
 
-export default SearchBooks;
+export default SearchPlants;

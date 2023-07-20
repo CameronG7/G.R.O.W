@@ -7,38 +7,58 @@ export const LOGIN_USER = gql`
       token
       user {
         _id
+        username
       }
     }
   }
   `;
   
 export const ADD_USER = gql`
-mutation addUser($email: String!, $password: String!) {
-  addUser(email: $email, password: $password) {
+mutation AddUser($username: String!, $email: String!, $password: String!) {
+  addUser(username: $username, email: $email, password: $password) {
     token
     user {
       _id
+      email
+      garden {
+        commonName
+        img
+        plantId
+        scientificName
+        sunlight
+        watering
+      }
     }
   }
-}`
+}`;
 
-export const SAVE_BOOK = gql`
- mutation saveBook($input: bookInput!) {
-  saveBook(input: $input) {
+export const SAVE_PLANT = gql`
+ mutation savePlant($input: plantInput!) {
+  savePlant(input: $input) {
     _id
-    bookCount
-    savedBooks {
-      title
+    plantCount
+    garden {
+      plantId
+      commonName
+      scientificName
+      img
+      watering
+      sunlight
     }
   }
 }`
 
-export const REMOVE_BOOK = gql`
-mutation removeBook($bookId: String!) {
-  removeBook(bookId: $bookId) {
-    bookCount
-    savedBooks {
-      title
+export const REMOVE_PLANT = gql`
+mutation removePlant($plantId: String!) {
+  removePlant(plantId: $plantId) {
+    plantCount
+    savedPlants {
+      plantId
+      commonName
+      scientificName
+      img
+      watering
+      sunlight
     }
   }
 }`
