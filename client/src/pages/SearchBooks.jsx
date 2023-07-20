@@ -17,6 +17,8 @@ import { SAVE_BOOK } from '../utils/mutations';
 
 import backgroundImage2 from '../assets/pexels-tom-swinnen-2249959.jpg';
 import backgroundImage3 from '../assets/pexels-cottonbro-studio-5858235.jpg';
+import backgroundImage4 from '../assets/pexels-teona-swift-6912806.jpg';
+
 
 
 const SearchBooks = () => {
@@ -101,8 +103,8 @@ const SearchBooks = () => {
 
   return (
     <>
-      <div className="text-light bg-dark p-5" style={{ backgroundColor: '177A67' }}>
-        <Container id='container' style={{ backgroundColor: 'gray' }}>
+      <div>
+        <Container id='container' style={{ backgroundColor: '#ad6044', display: 'flex', justifyContent: 'center', alignItems: 'bottom', marginTop: '100px' }}>
           <h1>Search for your Plant!</h1>
           <Form onSubmit={handleFormSubmit} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Row>
@@ -113,7 +115,7 @@ const SearchBooks = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
-                  placeholder='Search for a book'
+                  placeholder='Search your Plant here!'
                 />
               </Col>
               <Col xs={12} md={4}>
@@ -127,11 +129,7 @@ const SearchBooks = () => {
       </div>
 
       <Container>
-        <h1 className='pt-5' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontFamily: 'cursive', fontWeight: 'bolder'}}>
-          {searchedBooks.length
-            ? `Viewing ${searchedBooks.length} results:`
-            : 'Search your Plant!'}
-        </h1>
+
         <Row>
           {searchedBooks.map((book) => {
             return (
@@ -161,15 +159,41 @@ const SearchBooks = () => {
           })}
         </Row>
       </Container>
-      <Container className="mt-5">
+      <Container className="main-content" style={{ 
+        overflowY: 'auto', 
+        maxHeight: '150vh',
+        marginTop: '100px', 
+        }}>
         <Row>
           <Col md={6}>
-            <img src={backgroundImage2} alt="background" style={{ width: '100%', height: '100%' }} />
+            <img src={backgroundImage2} alt="background" 
+            style={{ 
+              width: '100%', 
+            height: '100%', 
+            border: '6px solid black' }} />
           </Col>
           <Col md={6}>
-            <img src={backgroundImage3} alt="background" style={{ width: '100%', height: '100%' }} />
+            <img src={backgroundImage3} alt="background" 
+            style={{ 
+              width: '100%', 
+            height: '100%', 
+            border: '6px solid black' }} />
           </Col>
         </Row>
+        <Row>
+        <Col md={12} className="text-center mt-3">
+  <img
+    src={backgroundImage4}
+    alt="Another background"
+    style={{
+      width: '100%',
+      height: '50vh', // Set the height to 50% of the viewport height
+      border: '6px solid black',
+      objectFit: 'cover', // Maintain aspect ratio and crop as needed
+    }}
+  />
+</Col>
+  </Row>
       </Container>
     </>
   );
