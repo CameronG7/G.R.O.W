@@ -15,6 +15,9 @@ import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import { useMutation } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutations';
 
+import backgroundImage2 from '../assets/pexels-tom-swinnen-2249959.jpg';
+import backgroundImage3 from '../assets/pexels-cottonbro-studio-5858235.jpg';
+
 
 const SearchBooks = () => {
   
@@ -98,10 +101,10 @@ const SearchBooks = () => {
 
   return (
     <>
-      <div className="text-light bg-dark p-5" style={{ backgroundColor: '177A67'}}>
-        <Container id='container'>
+      <div className="text-light bg-dark p-5" style={{ backgroundColor: '177A67' }}>
+        <Container id='container' style={{ backgroundColor: 'gray' }}>
           <h1>Search for your Plant!</h1>
-          <Form onSubmit={handleFormSubmit}>
+          <Form onSubmit={handleFormSubmit} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Row>
               <Col xs={12} md={8}>
                 <Form.Control
@@ -124,11 +127,11 @@ const SearchBooks = () => {
       </div>
 
       <Container>
-        <h2 className='pt-5'>
+        <h1 className='pt-5' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontFamily: 'cursive', fontWeight: 'bolder'}}>
           {searchedBooks.length
             ? `Viewing ${searchedBooks.length} results:`
             : 'Search your Plant!'}
-        </h2>
+        </h1>
         <Row>
           {searchedBooks.map((book) => {
             return (
@@ -148,7 +151,7 @@ const SearchBooks = () => {
                         onClick={() => handleSaveBook(book.bookId)}>
                         {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
                           ? 'This book has already been saved!'
-                          : 'Save this Book!'}
+                          : 'Save this Plant!'}
                       </Button>
                     )}
                   </Card.Body>
@@ -156,6 +159,16 @@ const SearchBooks = () => {
               </Col>
             );
           })}
+        </Row>
+      </Container>
+      <Container className="mt-5">
+        <Row>
+          <Col md={6}>
+            <img src={backgroundImage2} alt="background" style={{ width: '100%', height: '100%' }} />
+          </Col>
+          <Col md={6}>
+            <img src={backgroundImage3} alt="background" style={{ width: '100%', height: '100%' }} />
+          </Col>
         </Row>
       </Container>
     </>

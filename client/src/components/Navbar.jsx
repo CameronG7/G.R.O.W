@@ -29,14 +29,14 @@ const AppNavbar = () => {
         {/* Add 'border' style to create a black border around the navbar and set the background color */}
         <Container fluid>
           <Navbar.Brand as={Link} to='/' className="d-flex align-items-center">
-            <span id='title' style={{ fontFamily: 'Indie Flower, cursive', fontSize: '50px', fontWeight: '600', margin: '0', color: '#17706e' }}>
+            <span id='title' style={{ fontFamily: 'Indie Flower, cursive', fontSize: '80px', fontWeight: 'bolder', margin: '0', color: '#17706e' }}>
               GROW
             </span>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
-              <Nav.Link as={Link} to='/' style={{ color: 'black', fontSize: '35px'}}>
+              <Nav.Link as={Link} to='/' style={{ fontSize: '40px', color: 'black', fontWeight: 'bolder'}} >
                 Home
               </Nav.Link>
               {/* if user is logged in show saved books and logout */}
@@ -48,7 +48,7 @@ const AppNavbar = () => {
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>
               ) : (
-                <Nav.Link onClick={() => setShowModal(true)} style={{ color: 'black', fontSize: '35px' }} >Login/Sign Up</Nav.Link>
+                <Nav.Link onClick={() => setShowModal(true)} style={{ color: 'black', fontSize: '40px', fontWeight: 'bolder' }} >Login/Sign Up</Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>
