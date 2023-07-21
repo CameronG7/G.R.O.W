@@ -158,6 +158,42 @@ const SearchPlants = () => {
           })}
         </Row>
       </Container>
+      <Container className="main-content" style={{ 
+        overflowY: 'auto', 
+        maxHeight: '150vh',
+        marginTop: '100px', 
+        }}>
+        <Row>
+          <Col md={6}>
+            <img src={backgroundImage2} alt="background" 
+            style={{ 
+              width: '100%', 
+            height: '100%', 
+            border: '6px solid black' }} />
+          </Col>
+          <Col md={6}>
+            <img src={backgroundImage3} alt="background" 
+            style={{ 
+              width: '100%', 
+            height: '100%', 
+            border: '6px solid black' }} />
+          </Col>
+        </Row>
+        <Row>
+        <Col md={12} className="text-center mt-3">
+  <img
+    src={backgroundImage4}
+    alt="Another background"
+    style={{
+      width: '100%',
+      height: '50vh', // Set the height to 50% of the viewport height
+      border: '6px solid black',
+      objectFit: 'cover', // Maintain aspect ratio and crop as needed
+    }}
+  />
+</Col>
+  </Row>
+      </Container>
     </>
   );
 };
