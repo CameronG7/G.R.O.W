@@ -1,6 +1,38 @@
 body {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Indie Flower', cursive;
+  background-color: #ad6044;
+  display: flex;
+  flex-direction: column;
 }
+
+h1 {
+  font-family: 'Rubik Mono One', sans-serif;
+  font-size: 3rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+h2 {
+  font-family: 'Rubik', sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+#title {
+  font-family: 'Indie Flower', cursive;
+  font-size: 50px;
+  font-weight: 600;
+  color: #177A67;
+}
+
+
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 
 h1,
 h2,

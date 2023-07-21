@@ -5,7 +5,6 @@ query GetMe {
   getMe {
     _id
     email
-    password
     username
     garden {
       commonName
