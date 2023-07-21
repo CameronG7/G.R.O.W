@@ -53,5 +53,5 @@ export const deleteBook = (bookId, token) => {
 // make a search to google books api 
 // https://www.googleapis.com/books/v1/volumes?q=harry+potter
 export const searchGoogleBooks = (query) => {
-  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
+  return fetch(`https://perenual.com/api/species-list?page=1&key=sk-PrN264b0b8378b5d91556`);
 };
