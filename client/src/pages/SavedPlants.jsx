@@ -91,12 +91,12 @@ const SavedPlants = () => {
       </div>
       <Container>
         <h2 className='pt-5'>
-          {userData.savedPlants.length
-            ? `Viewing ${userData.savedPlants.length} saved ${userData.savedPlants.length === 1 ? 'plant' : 'plants'}:`
+          {userData.garden.length
+            ? `Viewing ${<userData className="garden"></userData>.length} saved ${userData.savedPlants.length === 1 ? 'plant' : 'plants'}:`
             : 'You have no saved plants!'}
         </h2>
         <Row>
-          {userData.savedPlants.map((plant) => {
+          {userData.garden.map((plant) => {
             return (
               <Col key={plant.plantId} md="4">
                 <Card key={plant.plantId} border='dark'>

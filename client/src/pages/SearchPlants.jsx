@@ -125,12 +125,12 @@ const SearchPlants = () => {
 
       <Container>
         <h2 className='pt-5'>
-          {searchedPlants.length
+          {garden.length
             ? `Viewing ${searchedPlants.length} results:`
             : 'Search for a plant to begin'}
         </h2>
         <Row>
-          {searchedPlants.map((plant) => {
+          {garden.map((plant) => {
             return (
               <Col key={plant.plantId} md="4">
                 <Card key={plant.plantId} border='dark'>
