@@ -9,32 +9,23 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-
 import { savePlantIds, getSavedPlantIds } from '../utils/localStorage';
-
 import { useMutation } from '@apollo/client';
 import { SAVE_PLANT } from '../utils/mutations'; //
-
 import backgroundImage2 from '../assets/pexels-tom-swinnen-2249959.jpg';
 import backgroundImage3 from '../assets/pexels-cottonbro-studio-5858235.jpg';
 import backgroundImage4 from '../assets/pexels-teona-swift-6912806.jpg';
 
-
-
 const SearchPlants = () => {
-  
-  // create state for holding returned google api data
+  // create state for holding returned perenual api data
   const [searchedPlants, setSearchedPlants] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
-
-  // create state to hold saved bookId values
+  // create state to hold saved plantId values
   const [savedPlantIds, setSavedPlantIds] = useState(getSavedPlantIds());
 
   const [savePlant, { error }] = useMutation(SAVE_PLANT)
 
-  // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
-  // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
     return () => savePlantIds(savedPlantIds);
   });
@@ -47,36 +38,39 @@ const SearchPlants = () => {
       return false;
     }
 
-    try {
-      const response = fetch(`https://perenual.com/api/species-list?key=sk-MjnD64b5f8c806d741583&q=${searchInput}`)
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
-      console.log(response);
-      const { items } = await response.json();
-      console.log(items);
-      const plantData = '';
-      // const plantData = items.map((book) => ({
-      //   bookId: book.id,
+    try { //grab api from perenual
+      const response = await fetch(`https://perenual.com/api/species-list?key=sk-MjnD64b5f8c806d741583&q=${searchInput}`)
+
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
+      
+      const { data } = await response.json()
+   console.log(data)
+   console.log(data[0].id)
+      
+       const plantData = data.map((plant) =>({
+        plantId: plant.id,
+        
       //   authors: book.volumeInfo.authors || ['No author to display'],
-      //   title: book.volumeInfo.title,
+        title: plant.common_name,
       //   description: book.volumeInfo.description,
-      //   image: book.volumeInfo.imageLinks?.thumbnail || '',
-      // }));
+         image: plant.default_image?.original_url || '',
+        
+      }));  
       setSearchedPlants(plantData);
-      console.log(plantData)
       setSearchInput('');
     } catch (err) {
       console.error(err);
     }
   };
 
+
   // create function to handle saving a book to our database
   const handleSavePlant = async (plantId) => {
     // find the book in `searchedBooks` state by the matching id
     const plantToSave = searchedPlants.find((plant) => plant.plantId === plantId);
+    console.log(plantToSave)
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -104,7 +98,7 @@ const SearchPlants = () => {
 
   return (
     <>
-      <div>
+       <div>
         <Container id='container' style={{ backgroundColor: '#ad6044', display: 'flex', justifyContent: 'center', alignItems: 'bottom', marginTop: '100px' }}>
           <h1>Search for your Plant!</h1>
           <Form onSubmit={handleFormSubmit} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -116,12 +110,12 @@ const SearchPlants = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
-                  placeholder='Search your Plant here!'
+                  placeholder='Search for a plant'
                 />
               </Col>
               <Col xs={12} md={4}>
                 <Button type='submit' variant='success' size='lg'>
-                  Plant Search
+                  Submit Search
                 </Button>
               </Col>
             </Row>
@@ -130,6 +124,11 @@ const SearchPlants = () => {
       </div>
 
       <Container>
+        <h2 className='pt-5'>
+          {searchedPlants.length
+            ? `Viewing ${searchedPlants.length} results:`
+            : 'Search for a plant to begin'}
+        </h2>
         <Row>
           {searchedPlants.map((plant) => {
             return (
