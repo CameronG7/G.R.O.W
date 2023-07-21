@@ -9,12 +9,9 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { searchGoogleBooks } from '../utils/API';
-import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-
+import { savePlantIds, getSavedPlantIds } from '../utils/localStorage';
 import { useMutation } from '@apollo/client';
-import { SAVE_BOOK } from '../utils/mutations';
-
+import { SAVE_PLANT } from '../utils/mutations'; //
 import backgroundImage2 from '../assets/pexels-tom-swinnen-2249959.jpg';
 import backgroundImage3 from '../assets/pexels-cottonbro-studio-5858235.jpg';
 import backgroundImage4 from '../assets/pexels-teona-swift-6912806.jpg';
@@ -26,28 +23,22 @@ import carouselImage5 from '../assets/floorPlants.jpg';
 
 import {
   MDBCarousel,
-  MDBCarouselItem,
-} from 'mdb-react-ui-kit';
+  MDBCarouselItem,db-react-ui-kit';
+} from 'm
 
 
-
-
-const SearchBooks = () => {
-  
-  // create state for holding returned google api data
-  const [searchedBooks, setSearchedBooks] = useState([]);
+const SearchPlants = () => {
+  // create state for holding returned perenual api data
+  const [searchedPlants, setSearchedPlants] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
+  // create state to hold saved plantId values
+  const [savedPlantIds, setSavedPlantIds] = useState(getSavedPlantIds());
 
-  // create state to hold saved bookId values
-  const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+  const [savePlant, { error }] = useMutation(SAVE_PLANT)
 
-  const [saveBook, { error }] = useMutation(SAVE_BOOK)
-
-  // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
-  // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
-    return () => saveBookIds(savedBookIds);
+    return () => savePlantIds(savedPlantIds);
   });
 
   // create method to search for books and set state on form submit
@@ -58,35 +49,39 @@ const SearchBooks = () => {
       return false;
     }
 
-    try {
-      const response = await searchGoogleBooks(searchInput);
+    try { //grab api from perenual
+      const response = await fetch(`https://perenual.com/api/species-list?key=sk-MjnD64b5f8c806d741583&q=${searchInput}`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
-
-      const { items } = await response.json();
-
-      const bookData = items.map((book) => ({
-        bookId: book.id,
-        authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || '',
-      }));
-
-      setSearchedBooks(bookData);
-      console.log(bookData)
+      
+      const { data } = await response.json()
+   console.log(data)
+   console.log(data[0].id)
+      
+       const plantData = data.map((plant) =>({
+        plantId: plant.id,
+        
+      //   authors: book.volumeInfo.authors || ['No author to display'],
+        title: plant.common_name,
+      //   description: book.volumeInfo.description,
+         image: plant.default_image?.original_url || '',
+        
+      }));  
+      setSearchedPlants(plantData);
       setSearchInput('');
     } catch (err) {
       console.error(err);
     }
   };
 
+
   // create function to handle saving a book to our database
-  const handleSaveBook = async (bookId) => {
+  const handleSavePlant = async (plantId) => {
     // find the book in `searchedBooks` state by the matching id
-    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+    const plantToSave = searchedPlants.find((plant) => plant.plantId === plantId);
+    console.log(plantToSave)
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -97,8 +92,8 @@ const SearchBooks = () => {
 
     try {
       
-      const {data} = await saveBook({
-        variables: { input: { ...bookToSave }} 
+      const {data} = await savePlant({
+        variables: { input: { ...plantToSave }} 
       });
       
       if (!data) {
@@ -106,7 +101,7 @@ const SearchBooks = () => {
       }
 
       // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookId]);
+      setSavedPlantIds([...savedPlantIds, plantId]);
     } catch (err) {
       console.error(err);
     }
@@ -114,7 +109,7 @@ const SearchBooks = () => {
 
   return (
     <>
-      <div>
+       <div>
         <Container id='container' style={{ backgroundColor: '#ad6044', display: 'flex', justifyContent: 'center', alignItems: 'bottom', marginTop: '100px' }}>
           <h1>Search for your Plant!</h1>
           <Form onSubmit={handleFormSubmit} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -126,12 +121,12 @@ const SearchBooks = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
-                  placeholder='Search your Plant here!'
+                  placeholder='Search for a plant'
                 />
               </Col>
               <Col xs={12} md={4}>
                 <Button type='submit' variant='success' size='lg'>
-                  Plant Search
+                  Submit Search
                 </Button>
               </Col>
             </Row>
@@ -162,25 +157,25 @@ const SearchBooks = () => {
 
       <Container>
         <Row>
-          {searchedBooks.map((book) => {
+          {searchedPlants.map((plant) => {
             return (
-              <Col key={book.bookId} md="4">
-                <Card key={book.bookId} border='dark'>
-                  {book.image ? (
-                    <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
+              <Col key={plant.plantId} md="4">
+                <Card key={plant.plantId} border='dark'>
+                  {plant.image ? (
+                    <Card.Img src={plant.image} alt={`The cover for ${plant.title}`} variant='top' />
                   ) : null}
                   <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors}</p>
-                    <Card.Text>{book.description}</Card.Text>
+                    <Card.Title>{plant.title}</Card.Title>
+                    <p className='small'>Authors: {plant.authors}</p>
+                    <Card.Text>{plant.description}</Card.Text>
                     {Auth.loggedIn() && (
                       <Button
-                        disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
+                        disabled={savedPlantIds?.some((savedPlantId) => savedPlantId === plant.plantId)}
                         className='btn-block btn-info'
-                        onClick={() => handleSaveBook(book.bookId)}>
-                        {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
-                          ? 'This book has already been saved!'
-                          : 'Save this Plant!'}
+                        onClick={() => handleSavePlant(plant.plantId)}>
+                        {savedPlantIds?.some((savedPlantId) => savedPlantId === plant.plantId)
+                          ? 'This plant has already been saved!'
+                          : 'Save this shit!'}
                       </Button>
                     )}
                   </Card.Body>
@@ -244,4 +239,4 @@ const SearchBooks = () => {
   );
 };
 
-export default SearchBooks;
+export default SearchPlants;
