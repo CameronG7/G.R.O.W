@@ -11,18 +11,14 @@ import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
 import { useMutation } from '@apollo/client';
 
-
-import { REMOVE_BOOK } from '../utils/mutations';
+import { REMOVE_PLANT } from '../utils/mutations';
 import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
+import { removePlantId } from '../utils/localStorage';
 
-const SavedBooks = () => {
+const SavedPlants = () => {
   const [userData, setUserData] = useState({});
   const {loading, error, data} = useQuery(QUERY_USER);
-  const [removeBook, { errorRemove }] = useMutation(REMOVE_BOOK,
-    {
-      refetchQueries: [QUERY_USER]
-    })
+  const [removePlant, { errorRemove }] = useMutation(REMOVE_PLANT)
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData)?.length;
 
@@ -51,8 +47,7 @@ const SavedBooks = () => {
   }, [loading, data]);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
-  const handleDeleteBook = async (bookId) => {
-    console.log("remove clicked")
+  const handleDeletePlant = async (plantId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
@@ -60,8 +55,8 @@ const SavedBooks = () => {
     }
 
     try {
-      const{data} = await removeBook({
-        variables: {bookId: bookId}
+      const{data} = await removePlant({
+        variables: {plantId: plantId}
       })
       if (errorRemove){
         throw new Error('something went wrong!');
@@ -73,8 +68,7 @@ const SavedBooks = () => {
       // const updatedUser = await response.json();
       setUserData(data.removeBook);
       // upon success, remove book's id from localStorage
-      removeBookId(bookId);
-    
+      removePlantId(plantId);
     } catch (err) {
       console.error(err);
     }
@@ -84,32 +78,35 @@ const SavedBooks = () => {
   if (!userDataLength) {
     return <h2>LOADING...</h2>;
   }
-
+  if (error) {
+    return <h2>ERROR</h2>
+  }
+  
   return (
     <>
       <div fluid className="text-light bg-dark p-5">
         <Container>
-          <h1>Viewing saved books!</h1>
+          <h1>Viewing saved plants!</h1>
         </Container>
       </div>
       <Container>
         <h2 className='pt-5'>
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
-            : 'You have no saved books!'}
+          {userData.savedPlants.length
+            ? `Viewing ${userData.savedPlants.length} saved ${userData.savedPlants.length === 1 ? 'plant' : 'plants'}:`
+            : 'You have no saved plants!'}
         </h2>
         <Row>
-          {userData.savedBooks.map((book) => {
+          {userData.savedPlants.map((plant) => {
             return (
-              <Col key={book.bookId} md="4">
-                <Card key={book.bookId} border='dark'>
-                  {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
+              <Col key={plant.plantId} md="4">
+                <Card key={plant.plantId} border='dark'>
+                  {plant.image ? <Card.Img src={plant.image} alt={`The cover for ${plant.title}`} variant='top' /> : null}
                   <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors}</p>
-                    <Card.Text>{book.description}</Card.Text>
-                    <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
-                      Delete this Book!
+                    <Card.Title>{plant.commonName}</Card.Title>
+                    <p className='small'>Scientific Name: {plant.scientificName}</p>
+                    <Card.Text>{plant.watering}</Card.Text>
+                    <Button className='btn-block btn-danger' onClick={() => handleDeletePlant(plant.planId)}>
+                      Delete this Plant!
                     </Button>
                   </Card.Body>
                 </Card>
@@ -122,4 +119,4 @@ const SavedBooks = () => {
   );
 };
 
-export default SavedBooks;
+export default SavedPlants;
