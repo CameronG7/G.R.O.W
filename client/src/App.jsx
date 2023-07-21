@@ -6,6 +6,7 @@ import { setContext } from '@apollo/client/link/context';
 import SearchPlants from './pages/SearchPlants';
 import SavedPlants from './pages/SavedPlants';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 
 const httpLink = createHttpLink({
@@ -52,7 +53,11 @@ function App() {
           </Routes>
         </>
       </Router>
+      <div>
+        <Footer />
+      </div>
     </ApolloProvider>
+    
 
   );
 }

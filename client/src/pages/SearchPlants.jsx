@@ -15,6 +15,11 @@ import { savePlantIds, getSavedPlantIds } from '../utils/localStorage';
 import { useMutation } from '@apollo/client';
 import { SAVE_PLANT } from '../utils/mutations'; //
 
+import backgroundImage2 from '../assets/pexels-tom-swinnen-2249959.jpg';
+import backgroundImage3 from '../assets/pexels-cottonbro-studio-5858235.jpg';
+import backgroundImage4 from '../assets/pexels-teona-swift-6912806.jpg';
+
+
 
 const SearchPlants = () => {
   
@@ -99,10 +104,10 @@ const SearchPlants = () => {
 
   return (
     <>
-      <div className="text-light bg-dark p-5">
-        <Container>
-          <h1>Search for Plants!</h1>
-          <Form onSubmit={handleFormSubmit}>
+      <div>
+        <Container id='container' style={{ backgroundColor: '#ad6044', display: 'flex', justifyContent: 'center', alignItems: 'bottom', marginTop: '100px' }}>
+          <h1>Search for your Plant!</h1>
+          <Form onSubmit={handleFormSubmit} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Row>
               <Col xs={12} md={8}>
                 <Form.Control
@@ -111,12 +116,12 @@ const SearchPlants = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
-                  placeholder='Search for a plant'
+                  placeholder='Search your Plant here!'
                 />
               </Col>
               <Col xs={12} md={4}>
                 <Button type='submit' variant='success' size='lg'>
-                  Submit Search
+                  Plant Search
                 </Button>
               </Col>
             </Row>
@@ -125,11 +130,6 @@ const SearchPlants = () => {
       </div>
 
       <Container>
-        <h2 className='pt-5'>
-          {searchedPlants.length
-            ? `Viewing ${searchedPlants.length} results:`
-            : 'Search for a plant to begin'}
-        </h2>
         <Row>
           {searchedPlants.map((plant) => {
             return (
@@ -158,6 +158,42 @@ const SearchPlants = () => {
             );
           })}
         </Row>
+      </Container>
+      <Container className="main-content" style={{ 
+        overflowY: 'auto', 
+        maxHeight: '150vh',
+        marginTop: '100px', 
+        }}>
+        <Row>
+          <Col md={6}>
+            <img src={backgroundImage2} alt="background" 
+            style={{ 
+              width: '100%', 
+            height: '100%', 
+            border: '6px solid black' }} />
+          </Col>
+          <Col md={6}>
+            <img src={backgroundImage3} alt="background" 
+            style={{ 
+              width: '100%', 
+            height: '100%', 
+            border: '6px solid black' }} />
+          </Col>
+        </Row>
+        <Row>
+        <Col md={12} className="text-center mt-3">
+  <img
+    src={backgroundImage4}
+    alt="Another background"
+    style={{
+      width: '100%',
+      height: '50vh', // Set the height to 50% of the viewport height
+      border: '6px solid black',
+      objectFit: 'cover', // Maintain aspect ratio and crop as needed
+    }}
+  />
+</Col>
+  </Row>
       </Container>
     </>
   );

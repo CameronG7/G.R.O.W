@@ -38,12 +38,13 @@ const SavedPlants = () => {
         }
        
       } catch (err) {
+        console.error(error);
         console.error(err);
       }
     };
 
     getUserData();
-  }, [loading]);
+  }, [loading, data]);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeletePlant = async (plantId) => {
@@ -57,13 +58,15 @@ const SavedPlants = () => {
       const{data} = await removePlant({
         variables: {plantId: plantId}
       })
-
+      if (errorRemove){
+        throw new Error('something went wrong!');
+      }
       if (!data) {
         throw new Error('something went wrong!');
       }
-      console.log(data)
+      console.log(data.removeBook)
       // const updatedUser = await response.json();
-      // setUserData(updatedUser);
+      setUserData(data.removeBook);
       // upon success, remove book's id from localStorage
       removePlantId(plantId);
     } catch (err) {

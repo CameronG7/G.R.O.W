@@ -2,18 +2,21 @@
 	"name": "g.r.o.w",
 	"version": "1.0.0",
 	"description": "",
-  "main": "vite.config.js",
+	"main": "vite.config.js",
 	"scripts": {
 		"start": "node server/server.js",
 		"dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
 		"install": "cd server && npm i && cd ../client && npm i",
 		"build": "cd client && npm run build",
-    "front":"cd client && npm run dev"
+		"front": "cd client && npm run dev"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
 		"concurrently": "^8.2.0"
+	},
+	"dependencies": {
+		"vite-plugin-graphql": "^0.1.0"
 	}
 }
