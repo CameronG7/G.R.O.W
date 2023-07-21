@@ -23,8 +23,8 @@ import carouselImage5 from '../assets/floorPlants.jpg';
 
 import {
   MDBCarousel,
-  MDBCarouselItem,db-react-ui-kit';
-} from 'm
+  MDBCarouselItem,
+} from 'mdb-react-ui-kit';
 
 
 const SearchPlants = () => {
