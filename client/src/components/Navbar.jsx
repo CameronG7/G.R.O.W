@@ -39,13 +39,16 @@ const AppNavbar = () => {
               <Nav.Link as={Link} to='/' style={{ fontSize: '40px', color: 'black', fontWeight: 'bolder'}} >
                 Home
               </Nav.Link>
+              <Nav.Link as={Link} to='/search' style={{ fontSize: '40px', color: '#4WC7AF', fontWeight: 'bolder'}} >
+                Search
+              </Nav.Link>
               {/* if user is logged in show saved books and logout */}
               {Auth.loggedIn() ? (
                 <>
-                  <Nav.Link as={Link} to='/saved'>
+                  <Nav.Link as={Link} to='/saved' style={{ color: 'black', fontSize: '40px', fontWeight: 'bolder' }}>
                     See Your Plants
                   </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                  <Nav.Link onClick={Auth.logout} style={{ color: 'black', fontSize: '40px', fontWeight: 'bolder' }}>Logout</Nav.Link>
                 </>
               ) : (
                 <Nav.Link onClick={() => setShowModal(true)} style={{ color: 'black', fontSize: '40px', fontWeight: 'bolder' }} >Login/Sign Up</Nav.Link>
