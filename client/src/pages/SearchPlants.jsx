@@ -98,10 +98,10 @@ const SearchPlants = () => {
 
   return (
     <>
-      <div className="text-light bg-dark p-5">
-        <Container>
-          <h1>Search for Plants!</h1>
-          <Form onSubmit={handleFormSubmit}>
+       <div>
+        <Container id='container' style={{ backgroundColor: '#ad6044', display: 'flex', justifyContent: 'center', alignItems: 'bottom', marginTop: '100px' }}>
+          <h1>Search for your Plant!</h1>
+          <Form onSubmit={handleFormSubmit} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Row>
               <Col xs={12} md={8}>
                 <Form.Control
