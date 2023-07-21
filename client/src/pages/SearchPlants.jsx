@@ -12,7 +12,9 @@ import Auth from '../utils/auth';
 import { savePlantIds, getSavedPlantIds } from '../utils/localStorage';
 import { useMutation } from '@apollo/client';
 import { SAVE_PLANT } from '../utils/mutations'; //
-
+import backgroundImage2 from '../assets/pexels-tom-swinnen-2249959.jpg';
+import backgroundImage3 from '../assets/pexels-cottonbro-studio-5858235.jpg';
+import backgroundImage4 from '../assets/pexels-teona-swift-6912806.jpg';
 
 const SearchPlants = () => {
   // create state for holding returned perenual api data
