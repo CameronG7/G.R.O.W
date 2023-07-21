@@ -60,7 +60,7 @@ const SearchPlants = () => {
       //   description: book.volumeInfo.description,
       //   image: book.volumeInfo.imageLinks?.thumbnail || '',
       // }));
-      setSearchedBooks(plantData);
+      setSearchedPlants(plantData);
       console.log(plantData)
       setSearchInput('');
     } catch (err) {
