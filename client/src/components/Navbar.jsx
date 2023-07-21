@@ -29,7 +29,7 @@ const AppNavbar = () => {
         {/* Add 'border' style to create a black border around the navbar and set the background color */}
         <Container fluid>
           <Navbar.Brand as={Link} to='/' className="d-flex align-items-center">
-            <span id='title' style={{ fontFamily: 'Indie Flower, cursive', fontSize: '80px', fontWeight: 'bolder', margin: '0', color: '#17706e' }}>
+            <span id='title' style={{ fontFamily: 'Indie Flower, cursive', fontSize: '80px', fontWeight: 'bolder', margin: '0', color: '#4WC7AF' }}>
               GROW
             </span>
           </Navbar.Brand>
