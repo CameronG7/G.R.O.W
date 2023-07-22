@@ -4,7 +4,7 @@ import { Container, Col, Form, Button, Card, Row } from 'react-bootstrap';
 import Auth from '../utils/auth';
 import { savePlantIds, getSavedPlantIds } from '../utils/localStorage';
 import { useMutation } from '@apollo/client';
-import { SAVE_PLANT } from '../utils/mutations'; //
+import { SAVE_PLANT } from '../utils/mutations';
 
 const SearchPlants = () => {
 	// create state for holding returned perenual api data
@@ -14,7 +14,9 @@ const SearchPlants = () => {
 	// create state to hold saved plantId values
 	const [savedPlantIds, setSavedPlantIds] = useState(getSavedPlantIds());
 
-	const [savePlant, { error }] = useMutation(SAVE_PLANT);
+	const [savePlant, { error }] = useMutation(SAVE_PLANT,
+		{onError: (error) => {
+			console.log(error);}})
 
 	useEffect(() => {
 		return () => savePlantIds(savedPlantIds);
@@ -46,9 +48,9 @@ const SearchPlants = () => {
 				plantId: plant.id,
 
 				//   authors: book.volumeInfo.authors || ['No author to display'],
-				title: plant.common_name,
+				commonName: plant.common_name,
 				//   description: book.volumeInfo.description,
-				image: plant.default_image?.original_url || '',
+				img: plant.default_image?.original_url || '',
 			}));
 			setSearchedPlants(plantData);
 			setSearchInput('');
@@ -74,8 +76,12 @@ const SearchPlants = () => {
 
 		try {
 			const { data } = await savePlant({
-				variables: { input: { ...plantToSave } },
+				variables: { input: {...plantToSave}  },
 			});
+			// const { data } = await savePlant({
+				// variables: { plantId: plantToSave.plantId, commonName: plantToSave.commonName, img: plantToSave.img },
+			// });
+
 
 			if (!data) {
 				throw new Error('something went wrong!');
@@ -84,6 +90,8 @@ const SearchPlants = () => {
 			// if book successfully saves to user's account, save book id to state
 			setSavedPlantIds([...savedPlantIds, plantId]);
 		} catch (err) {
+			console.error(error);
+			console.log(error);
 			console.error(err);
 		}
 	};
@@ -133,7 +141,7 @@ const SearchPlants = () => {
 									variant="success"
 									size="lg"
 								>
-									Submit 
+									Submit
 								</Button>
 							</Col>
 						</Row>
@@ -153,15 +161,15 @@ const SearchPlants = () => {
 									key={plant.plantId}
 									border="dark"
 								>
-									{plant.image ? (
+									{plant.img ? (
 										<Card.Img
-											src={plant.image}
-											alt={`The cover for ${plant.title}`}
+											src={plant.img}
+											alt={`The cover for ${plant.commonName}`}
 											variant="top"
 										/>
 									) : null}
 									<Card.Body>
-										<Card.Title>{plant.title}</Card.Title>
+										<Card.Title>{plant.commonName}</Card.Title>
 										<p className="small">Authors: {plant.authors}</p>
 										<Card.Text>{plant.description}</Card.Text>
 										{Auth.loggedIn() && (
@@ -186,7 +194,6 @@ const SearchPlants = () => {
 					})}
 				</Row>
 			</Container>
-			
 		</>
 	);
 };

@@ -8,8 +8,9 @@ const resolvers = {
     // Get the user that is signed in
     getMe: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id });
-        return userData;
+        console.log(context.user)
+        const user = await User.findOne({ _id: context.user._id });
+        return user;
       }
       throw new AuthenticationError("Not logged in");
     },
@@ -60,6 +61,7 @@ const resolvers = {
     // Save a plant to the user's garden
     savePlant: async (parent, { input }, context) => {
       if (context.user) {
+        console.log(context.user, input)
         const updatedPlant = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { garden: input } },
@@ -70,6 +72,21 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+
+    // savePlant: async (parent, { plantId, commonName, img }, context) => {
+    //   if (context.user) {
+    //     console.log(context.user, plantId, commonName, img)
+    //     const updatedPlant = await User.findOneAndUpdate(
+    //       { _id: context.user._id },
+    //       { $addToSet: { garden: {plantId:plantId, commonName:commonName, img:img} } },
+    //       { new: true, runValidators: true }
+    //     );
+
+    //     return updatedPlant;
+    //   }
+    //   throw new AuthenticationError("You need to be logged in!");
+    // },
+
 
     // Remove a plant from the user's garden
     removePlant: async (parent, { plantId }, context) => {

@@ -33,20 +33,25 @@ mutation AddUser($username: String!, $email: String!, $password: String!) {
 }`;
 
 export const SAVE_PLANT = gql`
- mutation savePlant($input: plantInput!) {
+ mutation savePlant($input: plantInput) {
   savePlant(input: $input) {
     _id
-    plantCount
+    email
+    username
     garden {
-      plantId
       commonName
-      scientificName
       img
-      watering
-      sunlight
+      plantId
     }
   }
 }`
+// export const SAVE_PLANT = gql`
+// mutation savePlant($plantId: Int, $commonName: String, $img: String) {
+//  savePlant(plantId: $plantId, commonName: $commonName, img: $img) {
+//    username
+//  }
+
+// }`
 
 export const REMOVE_PLANT = gql`
 mutation removePlant($plantId: String!) {
