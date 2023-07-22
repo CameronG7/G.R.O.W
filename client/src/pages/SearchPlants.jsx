@@ -133,7 +133,7 @@ const SearchPlants = () => {
 									variant="success"
 									size="lg"
 								>
-									Submit Search
+									Submit 
 								</Button>
 							</Col>
 						</Row>
