@@ -19,7 +19,7 @@ const Home = () => {
 			<Container style={{ marginTop: '50px' }}>
 				<MDBCarousel
 					showIndicators
-					showControls
+					// showControls
 					fade
 				>
 					<MDBCarouselItem
@@ -48,17 +48,17 @@ const Home = () => {
 					</MDBCarouselItem>
 					<MDBCarouselItem
 						className="w-100 d-block"
-						itemId={3}
+						itemId={4}
 						src={carouselImage4}
-						alt="Carousel 3"
+						alt="Carousel 4"
 					>
 						{/* Add your content for the third carousel slide */}
 					</MDBCarouselItem>
 					<MDBCarouselItem
 						className="w-100 d-block"
-						itemId={3}
+						itemId={5}
 						src={carouselImage5}
-						alt="Carousel 3"
+						alt="Carousel 5"
 					>
 						{/* Add your content for the third carousel slide */}
 					</MDBCarouselItem>
@@ -79,6 +79,7 @@ const Home = () => {
 								position: 'relative',
 								width: '100%',
 								height: '100%',
+								border: '2px solid white',
 							}}
 						>
 							<img
@@ -97,7 +98,7 @@ const Home = () => {
 								}}
 							>
 								<h3>
-									<li>Self Guide: Your Personal Indoor Plant Care Coach</li>
+									<a>Self Guide: Your Personal Indoor Plant Care Coach</a>
 								</h3>
 								<p>
 									In this comprehensive section, we provide you with expert
@@ -118,6 +119,7 @@ const Home = () => {
 								position: 'relative',
 								width: '100%',
 								height: '100%',
+								border: '2px solid white',
 							}}
 						>
 							<img
@@ -136,7 +138,7 @@ const Home = () => {
 								}}
 							>
 								<h3>
-									<li>Plant Care: Get to Know Your Leafy Companions</li>
+									<a>Plant Care: Get to Know Your Leafy Companions</a>
 								</h3>
 								<p>
 									Welcome to the heart of our website, where we introduce you to
@@ -163,6 +165,7 @@ const Home = () => {
 								position: 'relative',
 								width: '100%',
 								height: '50vh',
+								border: '2px solid white',
 							}}
 						>
 							<img
@@ -181,7 +184,7 @@ const Home = () => {
 								}}
 							>
 								<h3>
-									<li>Plant Types: Explore the Green World of Possibilities</li>
+									<a>Plant Types: Explore the Green World of Possibilities</a>
 								</h3>
 								<p>
 									Dive into the captivating world of indoor plants with our

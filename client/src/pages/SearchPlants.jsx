@@ -58,7 +58,7 @@ const SearchPlants = () => {
     const plantToSave = searchedPlants.find((plant) => plant.plantId === plantId);
 
     const response = await fetch(
-      `https://perenual.com/api/species/details/${plantId}?key=sk-XbST64bd5482645301649`
+      `https://perenual.com/api/species/details/${plantId}?key=sk-6j2P64bd54b27794e1650`
     );
     const newData = await response.json();
 
@@ -87,6 +87,8 @@ const SearchPlants = () => {
     }
   };
 
+  
+
   return (
     <>
       <div
@@ -105,74 +107,96 @@ const SearchPlants = () => {
             padding: "20px",
           }}
         >
-          <Container>
-            <h1>Search for your Plant!</h1>
-            <Form
-              onSubmit={handleFormSubmit}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Row>
-                <Col xs={12} md={8}>
-                  <Form.Control
-                    name="searchInput"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    type="text"
-                    size="lg"
-                    placeholder="Search for a plant"
-                  />
-                </Col>
-                <Col xs={12} md={4}>
-                  <Button type="submit" variant="success" size="lg">
-                    Submit
-                  </Button>
-                </Col>
-              </Row>
-            </Form>
-          </Container>
-        </div>
-
-        <Container>
-          <Row>
-            {searchedPlants.map((plant) => (
-              <Col key={plant.plantId} md="4">
-                <Card key={plant.plantId} border="dark">
-                  {plant.img && (
-                    <Card.Img
-                      src={plant.img}
-                      alt={`The cover for ${plant.commonName}`}
-                      variant="top"
-                    />
-                  )}
-                  <Card.Body>
-                    <Card.Title>{plant.commonName}</Card.Title>
-                    <p className="small">Authors: {plant.authors}</p>
-                    {Auth.loggedIn() && (
-                      <Button
-                        disabled={savedPlantIds?.some(
-                          (savedPlantId) => savedPlantId === plant.plantId
-                        )}
-                        className="btn-block btn-info"
-                        onClick={() => handleSavePlant(plant.plantId)}
-                      >
-                        {savedPlantIds?.some(
-                          (savedPlantId) => savedPlantId === plant.plantId
-                        )
-                          ? "This plant is in your Garden!"
-                          : "Add to Garden"}
-                      </Button>
-                    )}
-                  </Card.Body>
-                </Card>
+          <h1>Search for your Plant!</h1>
+          <Form
+            onSubmit={handleFormSubmit}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Row>
+              <Col xs={12} md={8}>
+                <Form.Control
+                  name="searchInput"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  type="text"
+                  size="lg"
+                  placeholder="Search for a plant"
+                />
               </Col>
-            ))}
-          </Row>
+              <Col xs={12} md={4}>
+                <Button type="submit" variant="success" size="lg">
+                  Submit
+                </Button>
+              </Col>
+            </Row>
+          </Form>
         </Container>
       </div>
+
+      <Container>
+        <Row>
+{/*         
+          {searchedPlants.sunlight ===  ? (
+          <div class="alert alert-info" role="alert" style={{padding:'2px'}}>
+            working on it! Please checkback later!
+          </div> */}
+          {/* ) : ( */}
+
+          {/* CAMMMERRRRROOOONNNNNN this is what I got working that i think is fine. */}
+          {searchedPlants.map((plant) => {
+            if (
+              plant.watering ===
+              "Upgrade Plans To Premium/Supreme - https://perenual.com/subscription-api-pricing. I'm sorry"
+            ) {
+              return (
+                <div className="alert alert-info" role="alert" key={plant.plantId}>
+                  Sorry, not available at this time!
+                </div>
+              );
+            } else {
+              return (
+                <Col key={plant.plantId} md="4">
+                  <Card key={plant.plantId} border="dark">
+                    {plant.img ? (
+                      <Card.Img
+                        src={plant.img}
+                        alt={`The cover for ${plant.commonName}`}
+                        variant="top"
+                      />
+                    ) : null}
+                    <Card.Body>
+                      <Card.Title>{plant.scientificName}</Card.Title>
+                      <p className="small">Common Name: {plant.commonName}</p>
+                      <p className="small">Description: {plant.description}</p>
+                      <p className="small">Sunlight: {plant.sunlight}</p>
+                      <p className="small">Watering: {plant.watering}</p>
+                      {Auth.loggedIn() && (
+                        <Button
+                          disabled={savedPlantIds?.some(
+                            (savedPlantId) => savedPlantId === plant.plantId
+                          )}
+                          className="btn-block btn-info"
+                          onClick={() => handleSavePlant(plant.plantId)}
+                        >
+                          {savedPlantIds?.some(
+                            (savedPlantId) => savedPlantId === plant.plantId
+                          )
+                            ? "This plant is in your Garden!"
+                            : "Add to Garden"}
+                        </Button>
+                      )}
+                    </Card.Body>
+                  </Card>
+                </Col>
+              );
+            }
+          })}
+        </Row>
+      </Container>
     </>
   );
 };
