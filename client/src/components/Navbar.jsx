@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, Container, Modal, Tab, Button, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Container, Modal, Tab, Button } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
 
@@ -14,15 +14,6 @@ import backgroundImage from '../assets/pexels-jonathan-borba-3263716.jpg';
 const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
-  const [showDrop, setShowDrop] = useState(false);
-
-  // State for mobile dropdown menu
-  const [showMenu, setShowMenu] = useState(false);
-
-  // Function to handle toggle of mobile dropdown menu
-  const handleToggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
 
   return (
     <>
