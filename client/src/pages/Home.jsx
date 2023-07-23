@@ -19,7 +19,7 @@ const Home = () => {
 			<Container style={{ marginTop: '50px' }}>
 				<MDBCarousel
 					showIndicators
-					showControls
+					// showControls
 					fade
 				>
 					<MDBCarouselItem
@@ -48,17 +48,17 @@ const Home = () => {
 					</MDBCarouselItem>
 					<MDBCarouselItem
 						className="w-100 d-block"
-						itemId={3}
+						itemId={4}
 						src={carouselImage4}
-						alt="Carousel 3"
+						alt="Carousel 4"
 					>
 						{/* Add your content for the third carousel slide */}
 					</MDBCarouselItem>
 					<MDBCarouselItem
 						className="w-100 d-block"
-						itemId={3}
+						itemId={5}
 						src={carouselImage5}
-						alt="Carousel 3"
+						alt="Carousel 5"
 					>
 						{/* Add your content for the third carousel slide */}
 					</MDBCarouselItem>

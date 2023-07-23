@@ -31,7 +31,7 @@ const SearchPlants = () => {
     try {
       //grab api from perenual
       const response = await fetch(
-        `https://perenual.com/api/species-list?key=sk-MjnD64b5f8c806d741583&q=${searchInput}`
+        `https://perenual.com/api/species-list?key=sk-XbST64bd5482645301649&q=${searchInput}`
       );
 
       if (!response.ok) {
@@ -51,7 +51,7 @@ const SearchPlants = () => {
         img: plant.default_image?.small_url || "",
         waterFreqName: "",
         waterFreqValue: "",
-		description: "",
+		    description: "",
       }));
 
       setSearchedPlants(plantData);

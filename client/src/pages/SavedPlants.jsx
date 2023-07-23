@@ -73,6 +73,10 @@ const SavedPlants = () => {
 	const handleDeletePlant = async (plantId) => {
 		const token = Auth.loggedIn() ? Auth.getToken() : null;
 
+    if (!token) {
+      return false;
+    }
+
     try {
       const { data } = await removePlant({
         variables: { plantId },
