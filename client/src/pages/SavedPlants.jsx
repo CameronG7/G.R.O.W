@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Container,
-  Card,
-  Button,
-  Row,
-  Col
-} from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Container, Card, Button, Row, Col } from "react-bootstrap";
 
-import { useQuery } from '@apollo/client';
-import { QUERY_USER } from '../utils/queries';
-import { useMutation } from '@apollo/client';
+import { useQuery } from "@apollo/client";
+import { QUERY_USER } from "../utils/queries";
+import { useMutation } from "@apollo/client";
 
-import { REMOVE_PLANT } from '../utils/mutations';
-import Auth from '../utils/auth';
-import { removePlantId } from '../utils/localStorage';
+import { REMOVE_PLANT, REMOVE_USER } from "../utils/mutations";
+import Auth from "../utils/auth";
+import { removePlantId } from "../utils/localStorage";
 
 const SavedPlants = () => {
   const [userData, setUserData] = useState({});
-  const {loading, error, data} = useQuery(QUERY_USER);
-  const [removePlant, { errorRemove }] = useMutation(REMOVE_PLANT)
+  const { loading, error, data } = useQuery(QUERY_USER);
+  const extraPlantData = [];
+  const [removePlant, { errorPlantRemove }] = useMutation(REMOVE_PLANT);
+  const [removeUser, { errorUserRemove }] = useMutation(REMOVE_USER);
+
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData)?.length;
 
@@ -30,15 +27,15 @@ const SavedPlants = () => {
         if (!token) {
           return false;
         }
-        console.log(data)
-        
-        
+        console.log(data, "First Data");
+
         if (!loading) {
-          setUserData(data.me);
+          setUserData(data.getMe);
         }
-       
+
+        console.log(userData, "User Data 111111");
+
       } catch (err) {
-        console.error(error);
         console.error(err);
       }
     };
@@ -46,7 +43,7 @@ const SavedPlants = () => {
     getUserData();
   }, [loading, data]);
 
-  // create function that accepts the book's mongo _id value as param and deletes the book from the database
+  // create function that accepts the plant's mongo _id value as param and deletes the book from the database
   const handleDeletePlant = async (plantId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -55,66 +52,126 @@ const SavedPlants = () => {
     }
 
     try {
-      const{data} = await removePlant({
-        variables: {plantId: plantId}
-      })
-      if (errorRemove){
-        throw new Error('something went wrong!');
-      }
+      const { data } = await removePlant({
+        variables: { plantId },
+      });
+
       if (!data) {
-        throw new Error('something went wrong!');
+        throw new Error("something went wrong!");
       }
-      console.log(data.removeBook)
-      // const updatedUser = await response.json();
-      setUserData(data.removeBook);
-      // upon success, remove book's id from localStorage
+
+      // remove plant's id from localStorage
       removePlantId(plantId);
     } catch (err) {
       console.error(err);
     }
   };
 
-  // if data isn't here yet, say so
+  const handleDeleteUser = async (userId) => {
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    console.log(userId, "USER ID");
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const { data } = await removeUser({
+        variables: { userId },
+      });
+
+      if (!data) {
+        throw new Error("something went wrong!");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // if data isn't here yet, set screen to loading
   if (!userDataLength) {
-    return <h2>LOADING...</h2>;
+    return <h2>Growing your garden...</h2>;
   }
   if (error) {
-    return <h2>ERROR</h2>
+    return <h2>Error</h2>;
   }
-  
+
+  console.log(userData.garden);
+
   return (
     <>
       <div fluid className="text-light bg-dark p-5">
         <Container>
-          <h1>Viewing saved plants!</h1>
+          <h2>{`Welcome back ${userData.username}!`}</h2>
+          <h4 style={{ marginTop: "20px" }}>Let's check out your garden</h4>
         </Container>
       </div>
       <Container>
-        <h2 className='pt-5'>
-          {userData.savedPlants.length
-            ? `Viewing ${userData.savedPlants.length} saved ${userData.savedPlants.length === 1 ? 'plant' : 'plants'}:`
-            : 'You have no saved plants!'}
+        <h2 className="pt-5">
+          {userData.garden.length ? `` : "Your garden is empty 🙁"}
         </h2>
-        <Row>
-          {userData.savedPlants.map((plant) => {
-            return (
-              <Col key={plant.plantId} md="4">
-                <Card key={plant.plantId} border='dark'>
-                  {plant.image ? <Card.Img src={plant.image} alt={`The cover for ${plant.title}`} variant='top' /> : null}
-                  <Card.Body>
-                    <Card.Title>{plant.commonName}</Card.Title>
-                    <p className='small'>Scientific Name: {plant.scientificName}</p>
-                    <Card.Text>{plant.watering}</Card.Text>
-                    <Button className='btn-block btn-danger' onClick={() => handleDeletePlant(plant.planId)}>
-                      Delete this Plant!
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
+
+        <h3
+          style={{
+            marginBottom: "50px",
+          }}
+        >
+          {userData.garden.length > 0
+            ? userData.garden.length === 1
+              ? `Amazing, you have ${userData.garden.length} plant in your garden!`
+              : `Amazing, you have ${userData.garden.length} plants in your garden!`
+            : ``}
+        </h3>
       </Container>
+
+      {/* New Style Card */}
+      {userData.garden.map((plant) => {
+        return (
+          <Row key={plant.plantId} md="4">
+            <div className="card w-75" style={{ margin: "20px" }}>
+              <div className="card-img-top d-flex align-items-center bg-light">
+                <div>
+                  <img
+                    className="img-fluid"
+                    src={plant.img}
+                    alt={`Image for ${plant.commonName}`}
+                    style={{
+                      width: "300px",
+                      height: "300px",
+                      padding: "20px",
+                      borderRadius: "25px",
+                    }}
+                  ></img>
+                </div>
+                <div>
+                  <h1 className="col p-2 m-0">{plant.commonName}</h1>
+                  <h4 className="col p-2 m-0">
+                    <i>{plant.scientificName}</i>
+                  </h4>
+                  <h5 className="col p-2 m-0">{`Recommended watering: ${plant.watering}`}</h5>
+                  <h5 className="col p-2 m-0">{`Recommended sunlight: ${plant.sunlight}`}</h5>
+                  <h6>{`${plant.description}`}</h6>
+                  <Button
+                    className="btn-block btn-danger"
+                    style={{ margin: "20px", width: "300px" }}
+                    onClick={() => handleDeletePlant(plant.plantId)}
+                  >
+                    Remove from Garden
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Row>
+        );
+      })}
+      <Button
+                    className="btn-block btn-danger"
+                    style={{ margin: "20px", width: "300px" }}
+                    onClick={() => handleDeleteUser(userData._id)}
+                  >
+                    Delete Profile
+                  </Button>
     </>
   );
 };

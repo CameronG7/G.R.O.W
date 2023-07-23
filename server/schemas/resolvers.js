@@ -18,7 +18,7 @@ const resolvers = {
     getGarden: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
-          .populate("graden");
+          .populate("garden");
           return userData.garden;
       }
       throw new AuthenticationError("Not logged in");
@@ -84,6 +84,13 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+
+    removeUser: async (parent, { userId }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findByIdAndDelete(
+          { _id: context.user._id });
+      }
+    }
   },
 };
 
