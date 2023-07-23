@@ -16,10 +16,10 @@ const typeDefs = gql`
     scientificName: String
     img: String
     watering: String
+    description: String
     sunlight: String
     waterFreqName: String
     waterFreqValue: String
-    description: String
   }
 
   input PlantInput {
@@ -28,10 +28,10 @@ const typeDefs = gql`
     scientificName: String
     img: String
     watering: String
+    description: String
     sunlight: String
     waterFreqName: String
     waterFreqValue: String
-    description: String
   }
 
   type Auth {

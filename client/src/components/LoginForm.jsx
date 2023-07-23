@@ -49,7 +49,7 @@ const LoginForm = () => {
     }
 
     setUserFormData({
-      email: '',
+      username: '',
       password: '',
     });
   };
@@ -86,7 +86,7 @@ const LoginForm = () => {
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
         <Button
-          disabled={!(userFormData.email && userFormData.password)}
+          disabled={!(userFormData.username && userFormData.password)}
           type='submit'
           variant='success'>
           Submit

@@ -48,7 +48,7 @@ const SearchPlants = () => {
         scientificName: plant.scientific_name[0],
         watering: plant.watering,
         sunlight: plant.sunlight[0],
-        img: plant.default_image.small_url,
+        img: plant.default_image?.small_url || "",
         waterFreqName: "",
         waterFreqValue: "",
 		description: "",
