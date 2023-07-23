@@ -79,7 +79,6 @@ const Home = () => {
 								position: 'relative',
 								width: '100%',
 								height: '100%',
-								border: '6px solid black',
 							}}
 						>
 							<img
@@ -119,7 +118,6 @@ const Home = () => {
 								position: 'relative',
 								width: '100%',
 								height: '100%',
-								border: '6px solid black',
 							}}
 						>
 							<img
@@ -165,7 +163,6 @@ const Home = () => {
 								position: 'relative',
 								width: '100%',
 								height: '50vh',
-								border: '6px solid black',
 							}}
 						>
 							<img

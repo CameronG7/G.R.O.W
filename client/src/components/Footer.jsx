@@ -14,8 +14,8 @@ export default function App() {
     <MDBFooter className='text-center' color='white' bgColor='dark'>
       <MDBContainer className='p-1' style={{ marginTop: '300px'}}>
         <section className='mb-4'>
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-            <MDBIcon fab icon='facebook-f' />
+          <MDBBtn outline color="light" floating className='m-1' href='https://github.com/CameronG7/G.R.O.W' role='button'>
+            <MDBIcon fab icon='Github' />
           </MDBBtn>
 
           <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
@@ -30,13 +30,6 @@ export default function App() {
             <MDBIcon fab icon='instagram' />
           </MDBBtn>
 
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-            <MDBIcon fab icon='linkedin-in' />
-          </MDBBtn>
-
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-            <MDBIcon fab icon='github' />
-          </MDBBtn>
         </section>
 
         <section className=''>

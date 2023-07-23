@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
-
 import { useQuery } from "@apollo/client";
 import { QUERY_USER } from "../utils/queries";
 import { useMutation } from "@apollo/client";
-
 import { REMOVE_PLANT, REMOVE_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
 import { removePlantId } from "../utils/localStorage";
@@ -12,45 +10,42 @@ import { removePlantId } from "../utils/localStorage";
 const SavedPlants = () => {
   const [userData, setUserData] = useState({});
   const { loading, error, data } = useQuery(QUERY_USER);
-  const extraPlantData = [];
-  const [removePlant, { errorPlantRemove }] = useMutation(REMOVE_PLANT,
-    {
-      // The update method allows us to access and update the local cache
-      update(cache, { data: { removePlant } }) {
-        try {
-          // First we retrieve existing profile data that is stored in the cache under the `QUERY_PROFILES` query
-          // Could potentially not exist yet, so wrap in a try/catch
-          const { getMe } = cache.readQuery({ query: QUERY_USER });
-          console.log(getMe, "GET ME");
-  
-          // Then we update the cache by combining existing profile data with the newly created data returned from the mutation
-          cache.writeQuery({
-            query: QUERY_USER,
-            // If we want new data to show up before or after existing data, adjust the order of this array
-            data: { getMe:  removePlant },
-          });
-        } catch (e) {
-          console.error(e);
-        }
-      },
-    });
+  const [removePlant, { errorPlantRemove }] = useMutation(REMOVE_PLANT, {
+    // The update method allows us to access and update the local cache
+    update(cache, { data: { removePlant } }) {
+      try {
+        // First we retrieve existing profile data that is stored in the cache under the `QUERY_PROFILES` query
+        // Could potentially not exist yet, so wrap in a try/catch
+        const { getMe } = cache.readQuery({ query: QUERY_USER });
+        console.log(getMe, "GET ME");
+
+        // Then we update the cache by combining existing profile data with the newly created data returned from the mutation
+        cache.writeQuery({
+          query: QUERY_USER,
+          // If we want new data to show up before or after existing data, adjust the order of this array
+          data: { getMe: removePlant },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
 
   const [removeUser, { errorUserRemove }] = useMutation(REMOVE_USER);
 
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData)?.length;
 
-	useEffect(() => {
-		const getUserData = async () => {
-			try {
-         
-				const token = Auth.loggedIn() ? Auth.getToken() : null;
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-				if (!token) {
-          console.log("logged out")
-					return false;
-				}
-      
+        if (!token) {
+          console.log("logged out");
+          return false;
+        }
+
         console.log(data, "First Data");
 
         if (!loading) {
@@ -58,20 +53,17 @@ const SavedPlants = () => {
         }
 
         console.log(userData, "User Data 111111");
-
       } catch (err) {
         console.error(err);
       }
     };
 
-		
+    getUserData();
+  }, [loading, data]);
 
-		getUserData();
-	}, [loading, data]);
-
-	// create function that accepts the book's mongo _id value as param and deletes the book from the database
-	const handleDeletePlant = async (plantId) => {
-		const token = Auth.loggedIn() ? Auth.getToken() : null;
+  // create function that accepts the book's mongo _id value as param and deletes the book from the database
+  const handleDeletePlant = async (plantId) => {
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
       return false;
@@ -138,11 +130,7 @@ const SavedPlants = () => {
           {userData.garden.length ? `` : "Your garden is empty 🙁"}
         </h2>
 
-        <h3
-          style={{
-            marginBottom: "50px",
-          }}
-        >
+        <h3 style={{ marginBottom: "50px" }}>
           {userData.garden.length > 0
             ? userData.garden.length === 1
               ? `Amazing, you have ${userData.garden.length} plant in your garden!`
@@ -152,52 +140,46 @@ const SavedPlants = () => {
       </Container>
 
       {/* New Style Card */}
-      {userData.garden.map((plant) => {
-        return (
-          <Row key={plant.plantId} md="4">
-            <div className="card w-75" style={{ margin: "20px" }}>
-              <div className="card-img-top d-flex align-items-center bg-light">
-                <div>
-                  <img
-                    className="img-fluid"
+      <Container>
+        <Row xs={1} md={2} lg={3} className="g-4">
+          {userData.garden.map((plant) => (
+            <Col key={plant.plantId}>
+              <Card className="h-100">
+                {plant.img && (
+                  <Card.Img
+                    variant="top"
                     src={plant.img}
                     alt={`Image for ${plant.commonName}`}
-                    style={{
-                      width: "300px",
-                      height: "300px",
-                      padding: "20px",
-                      borderRadius: "25px",
-                    }}
-                  ></img>
-                </div>
-                <div>
-                  <h1 className="col p-2 m-0">{plant.commonName}</h1>
-                  <h4 className="col p-2 m-0">
+                    style={{ width: "300px", height: "300px", borderRadius: "25px" }}
+                  />
+                )}
+                <Card.Body>
+                  <Card.Title>{plant.commonName}</Card.Title>
+                  <Card.Text>
                     <i>{plant.scientificName}</i>
-                  </h4>
-                  <h5 className="col p-2 m-0">{`Recommended watering: ${plant.watering}`}</h5>
-                  <h5 className="col p-2 m-0">{`Recommended sunlight: ${plant.sunlight}`}</h5>
-                  <h6>{`${plant.description}`}</h6>
+                  </Card.Text>
+                  <Card.Text>{`Recommended watering: ${plant.watering}`}</Card.Text>
+                  <Card.Text>{`Recommended sunlight: ${plant.sunlight}`}</Card.Text>
+                  <Card.Text>{`${plant.description}`}</Card.Text>
                   <Button
                     className="btn-block btn-danger"
-                    style={{ margin: "20px", width: "300px" }}
                     onClick={() => handleDeletePlant(plant.plantId)}
                   >
                     Remove from Garden
                   </Button>
-                </div>
-              </div>
-            </div>
-          </Row>
-        );
-      })}
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
       <Button
-                    className="btn-block btn-danger"
-                    style={{ margin: "20px", width: "300px" }}
-                    onClick={() => handleDeleteUser(userData._id)}
-                  >
-                    Delete Profile
-                  </Button>
+        className="btn-block btn-danger"
+        style={{ margin: "20px", width: "300px" }}
+        onClick={() => handleDeleteUser(userData._id)}
+      >
+        Delete Profile
+      </Button>
     </>
   );
 };

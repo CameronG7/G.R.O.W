@@ -4,14 +4,11 @@ import { Container, Col, Form, Button, Card, Row } from "react-bootstrap";
 import Auth from "../utils/auth";
 import { savePlantIds, getSavedPlantIds } from "../utils/localStorage";
 import { useMutation } from "@apollo/client";
-import { SAVE_PLANT } from "../utils/mutations"; //
+import { SAVE_PLANT } from "../utils/mutations";
 
 const SearchPlants = () => {
-  // create state for holding returned perenual api data
   const [searchedPlants, setSearchedPlants] = useState([]);
-  // create state for holding our search field data
   const [searchInput, setSearchInput] = useState("");
-  // create state to hold saved plantId values
   const [savedPlantIds, setSavedPlantIds] = useState(getSavedPlantIds());
 
   const [savePlant, { error }] = useMutation(SAVE_PLANT);
@@ -20,7 +17,6 @@ const SearchPlants = () => {
     return () => savePlantIds(savedPlantIds);
   });
 
-  // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -29,18 +25,15 @@ const SearchPlants = () => {
     }
 
     try {
-      //grab api from perenual
       const response = await fetch(
         `https://perenual.com/api/species-list?key=sk-XbST64bd5482645301649&q=${searchInput}`
       );
 
       if (!response.ok) {
-        throw new Error("something went wrong!");
+        throw new Error("Something went wrong!");
       }
 
       const { data } = await response.json();
-      console.log(data, "Nice");
-      console.log(data[0].id);
 
       const plantData = data.map((plant) => ({
         plantId: plant.id,
@@ -51,7 +44,7 @@ const SearchPlants = () => {
         img: plant.default_image?.small_url || "",
         waterFreqName: "",
         waterFreqValue: "",
-		    description: "",
+        description: "",
       }));
 
       setSearchedPlants(plantData);
@@ -61,44 +54,33 @@ const SearchPlants = () => {
     }
   };
 
-  // create function to handle saving a book to our database
   const handleSavePlant = async (plantId) => {
-    // find the book in `searchedBooks` state by the matching id
-    const plantToSave = searchedPlants.find(
-      (plant) => plant.plantId === plantId
-    );
-    console.log(plantToSave, "Save!");
+    const plantToSave = searchedPlants.find((plant) => plant.plantId === plantId);
 
-    // Obtain extra data when plant is to be saved
     const response = await fetch(
       `https://perenual.com/api/species/details/${plantId}?key=sk-XbST64bd5482645301649`
     );
     const newData = await response.json();
 
-	// Adding new data to the plant object
-	plantToSave.waterFreqName = newData.watering_general_benchmark.unit;
-	plantToSave.waterFreqValue = newData.watering_general_benchmark.value;
-	plantToSave.description = newData.description;
+    plantToSave.waterFreqName = newData.watering_general_benchmark.unit;
+    plantToSave.waterFreqValue = newData.watering_general_benchmark.value;
+    plantToSave.description = newData.description;
 
-    // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
       return false;
     }
 
-	console.log(plantToSave, "Plant to Save 2")
     try {
       const { data } = await savePlant({
         variables: { input: { ...plantToSave } },
       });
 
       if (!data) {
-        throw new Error("something went wrong!");
+        throw new Error("Something went wrong!");
       }
-	  console.log(data, "DATA");
 
-      // if book successfully saves to user's account, save book id to state
       setSavedPlantIds([...savedPlantIds, plantId]);
     } catch (err) {
       console.error(err);
@@ -107,60 +89,65 @@ const SearchPlants = () => {
 
   return (
     <>
-      <div>
-        <Container
-          id="container"
+      <div
+        style={{
+          minHeight: "100vh", // Set the minimum height to fill the whole viewport
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <div
           style={{
             backgroundColor: "#ad6044",
             display: "flex",
             justifyContent: "center",
-            alignItems: "bottom",
-            marginTop: "100px",
+            alignItems: "center",
+            padding: "20px",
           }}
         >
-          <h1>Search for your Plant!</h1>
-          <Form
-            onSubmit={handleFormSubmit}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Row>
-              <Col xs={12} md={8}>
-                <Form.Control
-                  name="searchInput"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  type="text"
-                  size="lg"
-                  placeholder="Search for a plant"
-                />
-              </Col>
-              <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
-                  Submit
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </Container>
-      </div>
+          <Container>
+            <h1>Search for your Plant!</h1>
+            <Form
+              onSubmit={handleFormSubmit}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Row>
+                <Col xs={12} md={8}>
+                  <Form.Control
+                    name="searchInput"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    type="text"
+                    size="lg"
+                    placeholder="Search for a plant"
+                  />
+                </Col>
+                <Col xs={12} md={4}>
+                  <Button type="submit" variant="success" size="lg">
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </Container>
+        </div>
 
-      <Container>
-        <Row>
-          {searchedPlants.map((plant) => {
-            return (
+        <Container>
+          <Row>
+            {searchedPlants.map((plant) => (
               <Col key={plant.plantId} md="4">
                 <Card key={plant.plantId} border="dark">
-                  {plant.img ? (
+                  {plant.img && (
                     <Card.Img
                       src={plant.img}
                       alt={`The cover for ${plant.commonName}`}
                       variant="top"
                     />
-                  ) : null}
+                  )}
                   <Card.Body>
                     <Card.Title>{plant.commonName}</Card.Title>
                     <p className="small">Authors: {plant.authors}</p>
@@ -182,10 +169,10 @@ const SearchPlants = () => {
                   </Card.Body>
                 </Card>
               </Col>
-            );
-          })}
-        </Row>
-      </Container>
+            ))}
+          </Row>
+        </Container>
+      </div>
     </>
   );
 };
