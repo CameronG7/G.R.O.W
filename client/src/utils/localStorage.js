@@ -23,7 +23,7 @@ export const removePlantId = (plantId) => {
     return false;
   }
 
-  const updatedSavedPlantIds = savedPlantIds?.filter((savedPlantId) => savedPlantId !== plantIdId);
+  const updatedSavedPlantIds = savedPlantIds?.filter((savedPlantId) => savedPlantId !== plantId);
   localStorage.setItem('saved_plants', JSON.stringify(updatedSavedPlantIds));
 
   return true;

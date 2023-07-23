@@ -26,6 +26,50 @@ h2 {
   color: #177A67;
 }
 
+.btn{
+  background-color: rgba(23, 122, 103,.5);
+  color: #F3E9D2;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 10px;
+  margin: 5px;
+  font-size: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: none;
+}
+:not(.btn-check)+.btn-primary:hover, .btn-primary:first-child:hover, .btn-primary:focus-visible, .btn-primary:hover{
+  background-color: rgba(23, 122, 103,1);
+  color: #F3E9D2;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 10px;
+  margin: 5px;
+  font-size: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active,
+.btn:visited
+.btn:focus-visible,
+.btn:focus-within
+.btn-primary:focus-visible {
+  background-color: rgba(23, 122, 103,1);
+  color: #F3E9D2;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 10px;
+  margin: 5px;
+  font-size: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: none;
+}
+
 
 .root {
   display: flex;

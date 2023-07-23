@@ -11,22 +11,27 @@ const typeDefs = gql`
   }
 
   type Plant {
-    plantId: ID!
+    plantId: Int
     commonName: String
     scientificName: String
     img: String
     watering: String
+    description: String
     sunlight: String
+    waterFreqName: String
+    waterFreqValue: String
   }
 
   input PlantInput {
-    plantId: String!
+    plantId: Int!
     commonName: String
     scientificName: String
     img: String
     watering: String
+    description: String
     sunlight: String
-    createdAt: String
+    waterFreqName: String
+    waterFreqValue: String
   }
 
   type Auth {
@@ -45,6 +50,7 @@ const typeDefs = gql`
     login(username: String!, password: String!): Auth
     savePlant(input: PlantInput!): User
     removePlant(plantId: ID!): User
+    removeUser(_id: ID!): Auth
   }
 `;
 

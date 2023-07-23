@@ -8,7 +8,7 @@ import { useMutation } from '@apollo/client';
 import {LOGIN_USER} from '../utils/mutations'
 
 const LoginForm = () => {
-  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+  const [userFormData, setUserFormData] = useState({ username: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [login, {error, data}]= useMutation(LOGIN_USER)
@@ -49,7 +49,7 @@ const LoginForm = () => {
     }
 
     setUserFormData({
-      email: '',
+      username: '',
       password: '',
     });
   };
@@ -86,7 +86,7 @@ const LoginForm = () => {
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
         <Button
-          disabled={!(userFormData.email && userFormData.password)}
+          disabled={!(userFormData.username && userFormData.password)}
           type='submit'
           variant='success'>
           Submit

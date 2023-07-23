@@ -5,6 +5,7 @@ import { setContext } from '@apollo/client/link/context';
 
 import SearchPlants from './pages/SearchPlants';
 import SavedPlants from './pages/SavedPlants';
+import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -40,8 +41,11 @@ function App() {
           <Routes>
             <Route
               path='/'
-              element={<SearchPlants />}
+              element={<Home/>}
             />
+            <Route
+            path='/search'
+            element={<SearchPlants/>}/> 
             <Route
               path='/saved'
               element={<SavedPlants />}
