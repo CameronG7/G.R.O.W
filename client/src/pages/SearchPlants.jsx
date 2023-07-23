@@ -43,9 +43,10 @@ const SearchPlants = () => {
       console.log(data[0].id);
 
       const plantData = data.map((plant) => ({
-        plantId: plant.id.toString(),
+        plantId: plant.id,
         commonName: plant.common_name,
         scientificName: plant.scientific_name[0],
+        description: plant.description,
         watering: plant.watering,
         sunlight: plant.sunlight[0],
         img: plant.default_image?.small_url || "",
@@ -71,7 +72,7 @@ const SearchPlants = () => {
 
     // Obtain extra data when plant is to be saved
     const response = await fetch(
-      `https://perenual.com/api/species/details/${plantId}?key=sk-MjnD64b5f8c806d741583`
+      `https://perenual.com/api/species/details/${plantId}?key=sk-6j2P64bd54b27794e1650`
     );
     const newData = await response.json();
 
@@ -150,7 +151,7 @@ const SearchPlants = () => {
 
       <Container>
         <Row>
-          {garden.map((plant) => {
+          {searchedPlants.map((plant) => {
             return (
               <Col key={plant.plantId} md="4">
                 <Card key={plant.plantId} border="dark">
@@ -162,8 +163,11 @@ const SearchPlants = () => {
                     />
                   ) : null}
                   <Card.Body>
-                    <Card.Title>{plant.commonName}</Card.Title>
-                    <p className="small">Authors: {plant.authors}</p>
+                    <Card.Title>{plant.scientificName}</Card.Title>
+                    <p className="small">Common Name: {plant.commonName}</p>
+                    <p className="small">Description: {plant.description}</p>
+                    <p className="small">Sunlight: {plant.sunlight}</p>
+                    <p className="small">Watering: {plant.watering}</p>
                     {Auth.loggedIn() && (
                       <Button
                         disabled={savedPlantIds?.some(
