@@ -31,7 +31,7 @@ const SearchPlants = () => {
     try {
       //grab api from perenual
       const response = await fetch(
-        `https://perenual.com/api/species-list?key=sk-MjnD64b5f8c806d741583&q=${searchInput}`
+        `https://perenual.com/api/species-list?key=sk-XbST64bd5482645301649&q=${searchInput}`
       );
 
       if (!response.ok) {
@@ -43,7 +43,7 @@ const SearchPlants = () => {
       console.log(data[0].id);
 
       const plantData = data.map((plant) => ({
-        plantId: plant.id.toString(),
+        plantId: plant.id,
         commonName: plant.common_name,
         scientificName: plant.scientific_name[0],
         watering: plant.watering,
@@ -51,7 +51,7 @@ const SearchPlants = () => {
         img: plant.default_image?.small_url || "",
         waterFreqName: "",
         waterFreqValue: "",
-		description: "",
+		    description: "",
       }));
 
       setSearchedPlants(plantData);
@@ -71,7 +71,7 @@ const SearchPlants = () => {
 
     // Obtain extra data when plant is to be saved
     const response = await fetch(
-      `https://perenual.com/api/species/details/${plantId}?key=sk-MjnD64b5f8c806d741583`
+      `https://perenual.com/api/species/details/${plantId}?key=sk-XbST64bd5482645301649`
     );
     const newData = await response.json();
 
@@ -140,7 +140,7 @@ const SearchPlants = () => {
               </Col>
               <Col xs={12} md={4}>
                 <Button type="submit" variant="success" size="lg">
-                  Submit Search
+                  Submit
                 </Button>
               </Col>
             </Row>

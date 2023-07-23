@@ -50,7 +50,7 @@ const typeDefs = gql`
     login(username: String!, password: String!): Auth
     savePlant(input: PlantInput!): User
     removePlant(plantId: ID!): User
-    removeUser(_id: ID!): Auth
+    removeUser(_id: ID!): User
   }
 `;
 
