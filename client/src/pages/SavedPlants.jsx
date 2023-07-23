@@ -13,7 +13,28 @@ const SavedPlants = () => {
   const [userData, setUserData] = useState({});
   const { loading, error, data } = useQuery(QUERY_USER);
   const extraPlantData = [];
-  const [removePlant, { errorPlantRemove }] = useMutation(REMOVE_PLANT);
+  const [removePlant, { errorPlantRemove }] = useMutation(REMOVE_PLANT,
+    {
+      // The update method allows us to access and update the local cache
+      update(cache, { data: { removePlant } }) {
+        try {
+          // First we retrieve existing profile data that is stored in the cache under the `QUERY_PROFILES` query
+          // Could potentially not exist yet, so wrap in a try/catch
+          const { getMe } = cache.readQuery({ query: QUERY_USER });
+          console.log(getMe, "GET ME");
+  
+          // Then we update the cache by combining existing profile data with the newly created data returned from the mutation
+          cache.writeQuery({
+            query: QUERY_USER,
+            // If we want new data to show up before or after existing data, adjust the order of this array
+            data: { getMe:  removePlant },
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      },
+    });
+
   const [removeUser, { errorUserRemove }] = useMutation(REMOVE_USER);
 
   // use this to determine if `useEffect()` hook needs to run again
@@ -55,7 +76,7 @@ const SavedPlants = () => {
       const { data } = await removePlant({
         variables: { plantId },
       });
-
+      console.log(data, "DATA");
       if (!data) {
         throw new Error("something went wrong!");
       }

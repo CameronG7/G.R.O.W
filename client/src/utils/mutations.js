@@ -39,19 +39,18 @@ export const SAVE_PLANT = gql`
   mutation savePlant($input: PlantInput!) {
     savePlant(input: $input) {
       _id
-      email
-      password
       username
       garden {
         commonName
         img
+        description
         plantId
         scientificName
         sunlight
         watering
         waterFreqName
         waterFreqValue
-        description
+       
       }
     }
   }
@@ -60,7 +59,19 @@ export const SAVE_PLANT = gql`
 export const REMOVE_PLANT = gql`
 mutation removePlant($plantId: ID!) {
   removePlant(plantId: $plantId) {
+    _id
     username
+    garden {
+      commonName
+      img
+      description
+      plantId
+      scientificName
+      sunlight
+      watering
+      waterFreqName
+      waterFreqValue
+  }
   }
 }
 `;
