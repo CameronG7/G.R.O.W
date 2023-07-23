@@ -67,7 +67,7 @@ const SavedPlants = () => {
 		
 
 		getUserData();
-	}, [loading, userDataLength]);
+	}, [loading, data]);
 
 	// create function that accepts the book's mongo _id value as param and deletes the book from the database
 	const handleDeletePlant = async (plantId) => {
@@ -113,7 +113,21 @@ const SavedPlants = () => {
 
   // if data isn't here yet, set screen to loading
   if (!userDataLength) {
-    return <h2>Growing your garden...</h2>;
+    return (
+      <div>
+        <h2
+          style={{
+            textAlign: "center",
+            margin: "50px",
+          }}
+        >
+          Growing your garden...
+        </h2>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status"></div>
+        </div>
+      </div>
+    );
   }
   if (error) {
     return <h2>Error</h2>;
@@ -151,32 +165,35 @@ const SavedPlants = () => {
       {userData.garden.map((plant) => {
         return (
           <Row key={plant.plantId} md="4">
-            <div className="card w-75" style={{ margin: "20px" }}>
-              <div className="card-img-top d-flex align-items-center bg-light">
-                <div>
+            <div className="card w-75" style={{ margin: " 0% 0% 2% 4%" }}>
+              <div className="card-img-top align-items-center bg-light savedPlantCard">
+                <div className="col-4">
                   <img
-                    className="img-fluid"
+                    className="img"
                     src={plant.img}
                     alt={`Image for ${plant.commonName}`}
                     style={{
-                      width: "300px",
-                      height: "300px",
+                      width: "100%",
+                      height: "100%",
                       padding: "20px",
                       borderRadius: "25px",
                     }}
                   ></img>
                 </div>
-                <div>
-                  <h1 className="col p-2 m-0">{plant.commonName}</h1>
-                  <h4 className="col p-2 m-0">
+                <div className="col-8">
+                  <h1 className="p-2 pb-0 m-0">{plant.commonName}</h1>
+                  <h4 className="p-2 pt-0 m-0" style={{fontFamily:"Times New Roman"}}>
                     <i>{plant.scientificName}</i>
                   </h4>
-                  <h5 className="col p-2 m-0">{`Recommended watering: ${plant.watering}`}</h5>
-                  <h5 className="col p-2 m-0">{`Recommended sunlight: ${plant.sunlight}`}</h5>
-                  <h6>{`${plant.description}`}</h6>
+                  <h6 className="p-2 m-0"><strong>Descirption: </strong>{`${plant.description}`}</h6>
+                  <h6 className="p-2 m-0"><strong>Maintenance: </strong>{`It is recommended to place this plant in ${plant.sunlight.toLowerCase()} light.`}</h6>
+                  <h6 className="p-2 m-0"><strong>Watering: </strong></h6>
+                  <h6 className="p-2 m-0">{plant.waterFreqName !== null && plant.waterFreqValue !== null
+                  ? `Water your ${plant.commonName} every ${plant.waterFreqValue} ${plant.waterFreqName.toLowerCase()}`
+                : `No incremental data`}</h6>
                   <Button
-                    className="btn-block btn-danger"
-                    style={{ margin: "20px", width: "300px" }}
+                    className="btn btn-danger"
+                    id="removePlantBtn"
                     onClick={() => handleDeletePlant(plant.plantId)}
                   >
                     Remove from Garden
@@ -188,8 +205,7 @@ const SavedPlants = () => {
         );
       })}
       <Button
-                    className="btn-block btn-danger"
-                    style={{ margin: "20px", width: "300px" }}
+                    id="removeUserBtns"
                     onClick={() => handleDeleteUser(userData._id)}
                   >
                     Delete Profile

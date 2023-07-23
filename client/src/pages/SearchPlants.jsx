@@ -43,7 +43,7 @@ const SearchPlants = () => {
       console.log(data[0].id);
 
       const plantData = data.map((plant) => ({
-        plantId: plant.id.toString(),
+        plantId: plant.id,
         commonName: plant.common_name,
         scientificName: plant.scientific_name[0],
         watering: plant.watering,
