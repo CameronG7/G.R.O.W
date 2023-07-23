@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-
+import { gql } from "@apollo/client";
 
 export const LOGIN_USER = gql`
   mutation login($username: String!, $password: String!) {
@@ -11,59 +10,76 @@ export const LOGIN_USER = gql`
       }
     }
   }
-  `;
-  
+`;
+
 export const ADD_USER = gql`
-mutation AddUser($username: String!, $email: String!, $password: String!) {
-  addUser(username: $username, email: $email, password: $password) {
-    token
-    user {
+  mutation AddUser($username: String!, $email: String!, $password: String!) {
+    addUser(username: $username, email: $email, password: $password) {
+      token
+      user {
+        _id
+        email
+        garden {
+          commonName
+          img
+          plantId
+          scientificName
+          sunlight
+          watering
+          waterFreqName
+          waterFreqValue
+          description
+        }
+      }
+    }
+  }
+`;
+
+export const SAVE_PLANT = gql`
+  mutation savePlant($input: PlantInput!) {
+    savePlant(input: $input) {
       _id
-      email
+      username
       garden {
         commonName
         img
+        description
         plantId
         scientificName
         sunlight
         watering
+        waterFreqName
+        waterFreqValue
+       
       }
     }
   }
-}`;
+`;
 
-export const SAVE_PLANT = gql`
- mutation savePlant($input: PlantInput) {
-  savePlant(input: $input) {
+export const REMOVE_PLANT = gql`
+mutation removePlant($plantId: ID!) {
+  removePlant(plantId: $plantId) {
     _id
-    email
     username
     garden {
       commonName
       img
+      description
       plantId
-    }
-  }
-}`
-// export const SAVE_PLANT = gql`
-// mutation savePlant($plantId: Int, $commonName: String, $img: String) {
-//  savePlant(plantId: $plantId, commonName: $commonName, img: $img) {
-//    username
-//  }
-
-// }`
-
-export const REMOVE_PLANT = gql`
-mutation removePlant($plantId: String!) {
-  removePlant(plantId: $plantId) {
-    plantCount
-    savedPlants {
-      plantId
-      commonName
       scientificName
-      img
-      watering
       sunlight
-    }
+      watering
+      waterFreqName
+      waterFreqValue
   }
-}`
+  }
+}
+`;
+
+export const REMOVE_USER = gql`
+mutation removeUser($id: ID!) {
+  removeUser(_id: $id) {
+    token
+  }
+}
+`;

@@ -19,7 +19,7 @@ const resolvers = {
     getGarden: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
-          .populate("graden");
+          .populate("garden");
           return userData.garden;
       }
       throw new AuthenticationError("Not logged in");
@@ -73,21 +73,6 @@ const resolvers = {
       throw new AuthenticationError("You need to be logged in!");
     },
 
-    // savePlant: async (parent, { plantId, commonName, img }, context) => {
-    //   if (context.user) {
-    //     console.log(context.user, plantId, commonName, img)
-    //     const updatedPlant = await User.findOneAndUpdate(
-    //       { _id: context.user._id },
-    //       { $addToSet: { garden: {plantId:plantId, commonName:commonName, img:img} } },
-    //       { new: true, runValidators: true }
-    //     );
-
-    //     return updatedPlant;
-    //   }
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
-
-
     // Remove a plant from the user's garden
     removePlant: async (parent, { plantId }, context) => {
       if (context.user) {
@@ -101,6 +86,13 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+
+    removeUser: async (parent, { userId }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findByIdAndDelete(
+          { _id: context.user._id });
+      }
+    }
   },
 };
 

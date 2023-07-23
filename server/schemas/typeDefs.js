@@ -16,7 +16,10 @@ const typeDefs = gql`
     scientificName: String
     img: String
     watering: String
+    description: String
     sunlight: String
+    waterFreqName: String
+    waterFreqValue: String
   }
 
   input PlantInput {
@@ -25,8 +28,10 @@ const typeDefs = gql`
     scientificName: String
     img: String
     watering: String
+    description: String
     sunlight: String
-    createdAt: String
+    waterFreqName: String
+    waterFreqValue: String
   }
 
   type Auth {
@@ -43,8 +48,9 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(username: String!, password: String!): Auth
-    savePlant(input: PlantInput): User
-    removePlant(plantId: Int!): User
+    savePlant(input: PlantInput!): User
+    removePlant(plantId: ID!): User
+    removeUser(_id: ID!): Auth
   }
 `;
 

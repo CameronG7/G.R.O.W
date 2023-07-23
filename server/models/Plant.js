@@ -21,6 +21,16 @@ const plantSchema = new Schema({
   sunlight: {
     type: String,
   },
+  waterFreqName: {
+    type: String,
+  },
+  waterFreqValue: {
+    type: String,
+  },
+  description: {
+    type: String,
+  },
+  
 });
 
 module.exports = plantSchema;
