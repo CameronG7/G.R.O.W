@@ -40,14 +40,17 @@ const SavedPlants = () => {
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData)?.length;
 
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
+	useEffect(() => {
+		const getUserData = async () => {
+			try {
+         
+				const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-        if (!token) {
-          return false;
-        }
+				if (!token) {
+          console.log("logged out")
+					return false;
+				}
+      
         console.log(data, "First Data");
 
         if (!loading) {
@@ -61,16 +64,14 @@ const SavedPlants = () => {
       }
     };
 
-    getUserData();
-  }, [loading, data]);
+		
 
-  // create function that accepts the plant's mongo _id value as param and deletes the book from the database
-  const handleDeletePlant = async (plantId) => {
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
+		getUserData();
+	}, [loading, userDataLength]);
 
-    if (!token) {
-      return false;
-    }
+	// create function that accepts the book's mongo _id value as param and deletes the book from the database
+	const handleDeletePlant = async (plantId) => {
+		const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     try {
       const { data } = await removePlant({

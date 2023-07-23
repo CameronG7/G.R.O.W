@@ -8,7 +8,7 @@ import { useMutation } from '@apollo/client';
 import {LOGIN_USER} from '../utils/mutations'
 
 const LoginForm = () => {
-  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+  const [userFormData, setUserFormData] = useState({ username: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [login, {error, data}]= useMutation(LOGIN_USER)

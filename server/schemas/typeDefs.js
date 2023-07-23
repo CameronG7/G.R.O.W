@@ -11,7 +11,7 @@ const typeDefs = gql`
   }
 
   type Plant {
-    plantId: ID!
+    plantId: Int
     commonName: String
     scientificName: String
     img: String
@@ -23,7 +23,7 @@ const typeDefs = gql`
   }
 
   input PlantInput {
-    plantId: String!
+    plantId: Int!
     commonName: String
     scientificName: String
     img: String
