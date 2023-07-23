@@ -1,44 +1,85 @@
-import { gql } from '@apollo/client';
-
+import { gql } from "@apollo/client";
 
 export const LOGIN_USER = gql`
-  mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
       token
       user {
         _id
+        username
       }
     }
   }
-  `;
-  
+`;
+
 export const ADD_USER = gql`
-mutation addUser($email: String!, $password: String!) {
-  addUser(email: $email, password: $password) {
-    token
-    user {
+  mutation AddUser($username: String!, $email: String!, $password: String!) {
+    addUser(username: $username, email: $email, password: $password) {
+      token
+      user {
+        _id
+        email
+        garden {
+          commonName
+          img
+          plantId
+          scientificName
+          sunlight
+          watering
+          waterFreqName
+          waterFreqValue
+          description
+        }
+      }
+    }
+  }
+`;
+
+export const SAVE_PLANT = gql`
+  mutation savePlant($input: PlantInput!) {
+    savePlant(input: $input) {
       _id
+      username
+      garden {
+        commonName
+        img
+        description
+        plantId
+        scientificName
+        sunlight
+        watering
+        waterFreqName
+        waterFreqValue
+       
+      }
     }
   }
-}`
+`;
 
-export const SAVE_BOOK = gql`
- mutation saveBook($input: bookInput!) {
-  saveBook(input: $input) {
+export const REMOVE_PLANT = gql`
+mutation removePlant($plantId: ID!) {
+  removePlant(plantId: $plantId) {
     _id
-    bookCount
-    savedBooks {
-      title
-    }
+    username
+    garden {
+      commonName
+      img
+      description
+      plantId
+      scientificName
+      sunlight
+      watering
+      waterFreqName
+      waterFreqValue
   }
-}`
+  }
+}
+`;
 
-export const REMOVE_BOOK = gql`
-mutation removeBook($bookId: String!) {
-  removeBook(bookId: $bookId) {
-    bookCount
-    savedBooks {
-      title
-    }
+export const REMOVE_USER = gql`
+mutation removeUser($id: ID!) {
+  removeUser(_id: $id) {
+    token
   }
-}`
+}
+`;

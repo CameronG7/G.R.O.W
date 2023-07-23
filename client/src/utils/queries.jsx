@@ -1,21 +1,21 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const QUERY_USER = gql`
-  query currentUser {
-  me {
-    username
-    _id
-    email
-    bookCount
-    savedBooks {
-      authors
-      bookId
-      description
-      title
-      image
-      link
+  query getMe {
+    getMe {
+      username
+      _id
+      garden {
+        commonName
+        img
+        plantId
+        scientificName
+        sunlight
+        watering
+        waterFreqName
+        waterFreqValue
+        description
+      }
     }
-   
   }
-}
 `;

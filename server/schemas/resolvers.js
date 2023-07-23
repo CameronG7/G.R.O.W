@@ -8,8 +8,9 @@ const resolvers = {
     // Get the user that is signed in
     getMe: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id });
-        return userData;
+        console.log(context.user)
+        const user = await User.findOne({ _id: context.user._id });
+        return user;
       }
       throw new AuthenticationError("Not logged in");
     },
@@ -18,7 +19,7 @@ const resolvers = {
     getGarden: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
-          .populate("graden");
+          .populate("garden");
           return userData.garden;
       }
       throw new AuthenticationError("Not logged in");
@@ -32,9 +33,9 @@ const resolvers = {
   Mutation: {
     // Add a new user
     addUser: async (parent, { username, email, password }) => {
-      const newUser = await User.create({ username, email, password });
-      const token = signToken(newUser);
-      return { token, newUser };
+      const user = await User.create({ username, email, password });
+      const token = signToken(user);
+      return { token, user };
     },
 
     // Login a user
@@ -60,6 +61,7 @@ const resolvers = {
     // Save a plant to the user's garden
     savePlant: async (parent, { input }, context) => {
       if (context.user) {
+        console.log(context.user, input)
         const updatedPlant = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { garden: input } },
@@ -84,6 +86,14 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+
+    removeUser: async (parent, { userId }, context) => {
+      if (context.user) {
+        const deletedUser = await User.findByIdAndDelete(
+          { _id: context.user._id });
+          return deletedUser;
+      }
+    }
   },
 };
 
