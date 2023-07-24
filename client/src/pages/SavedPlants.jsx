@@ -61,6 +61,16 @@ const SavedPlants = () => {
     getUserData();
   }, [loading, data]);
 
+  const plantCount = () => {
+    let count = "";
+
+    for (let i =0; i < userData.garden.length; i++) {
+      count += "🪴";
+    }
+
+    return count;
+  }
+
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeletePlant = async (plantId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -136,7 +146,6 @@ const SavedPlants = () => {
       <div fluid className="text-light bg-dark p-5">
         <Container>
           <h2>{`Welcome back ${userData.username}!`}</h2>
-          <h4 style={{ marginTop: "20px" }}>Let's check out your garden</h4>
         </Container>
       </div>
       <Container>
@@ -144,16 +153,11 @@ const SavedPlants = () => {
           {userData.garden.length ? `` : "Your garden is empty 🙁"}
         </h2>
 
-        <h3 style={{ marginBottom: "50px" }}>
-          {userData.garden.length > 0
-            ? userData.garden.length === 1
-              ? `Amazing, you have ${userData.garden.length} plant in your garden!`
-              : `Amazing, you have ${userData.garden.length} plants in your garden!`
-            : ``}
-        </h3>
+        <h3 className="text-light">{userData.garden.length ? `Your garden is growing! Let's check out your plant count: ` : ""}</h3>
+        <h3 style={{ marginBottom: "50px" }}>{plantCount()}</h3>
       </Container>
 
-       {/* New Style Card */}
+      {/* New Style Card */}
       {userData.garden.map((plant) => {
         return (
           <Row key={plant.plantId} md="4">
@@ -174,15 +178,31 @@ const SavedPlants = () => {
                 </div>
                 <div className="col-8">
                   <h1 className="p-2 pb-0 m-0">{plant.commonName}</h1>
-                  <h4 className="p-2 pt-0 m-0" style={{fontFamily:"Times New Roman"}}>
+                  <h4
+                    className="p-2 pt-0 m-0"
+                    style={{ fontFamily: "Times New Roman" }}
+                  >
                     <i>{plant.scientificName}</i>
                   </h4>
-                  <h6 className="p-2 m-0"><strong>Descirption: </strong>{`${plant.description}`}</h6>
-                  <h6 className="p-2 m-0"><strong>Maintenance: </strong>{`It is recommended to place this plant in ${plant.sunlight.toLowerCase()} light.`}</h6>
-                  <h6 className="p-2 m-0"><strong>Watering: </strong></h6>
-                  <h6 className="p-2 m-0">{plant.waterFreqName !== null && plant.waterFreqValue !== null
-                  ? `Water your ${plant.commonName} every ${plant.waterFreqValue} ${plant.waterFreqName.toLowerCase()}`
-                : `No incremental data`}</h6>
+                  <h6 className="p-2 m-0">
+                    <strong>Descirption: </strong>
+                    {`${plant.description}`}
+                  </h6>
+                  <h6 className="p-2 m-0">
+                    <strong>Maintenance: </strong>
+                    {`It is recommended to place this plant in ${plant.sunlight.toLowerCase()} light.`}
+                  </h6>
+                  <h6 className="p-2 m-0">
+                    <strong>Watering: </strong>
+                  </h6>
+                  <h6 className="p-2 m-0">
+                    {plant.waterFreqName !== null &&
+                    plant.waterFreqValue !== null
+                      ? `Water your ${plant.commonName} every ${
+                          plant.waterFreqValue
+                        } ${plant.waterFreqName.toLowerCase()}`
+                      : `No incremental data`}
+                  </h6>
                   <Button
                     className="btn btn-danger"
                     id="removePlantBtn"
@@ -197,11 +217,11 @@ const SavedPlants = () => {
         );
       })}
       <Button
-                    id="removeUserBtns"
-                    onClick={() => handleDeleteUser(userData._id)}
-                  >
-                    Delete Profile
-                  </Button>
+        id="removeUserBtns"
+        onClick={() => handleDeleteUser(userData._id)}
+      >
+        Delete Profile
+      </Button>
     </>
   );
 };

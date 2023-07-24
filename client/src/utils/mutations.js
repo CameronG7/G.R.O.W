@@ -79,7 +79,7 @@ mutation removePlant($plantId: ID!) {
 export const REMOVE_USER = gql`
 mutation removeUser($id: ID!) {
   removeUser(_id: $id) {
-    token
+    username
   }
 }
 `;
