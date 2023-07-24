@@ -153,7 +153,7 @@ const SavedPlants = () => {
         </h3>
       </Container>
 
-      {/* New Style Card */}
+       {/* New Style Card */}
       {userData.garden.map((plant) => {
         return (
           <Row key={plant.plantId} md="4">
@@ -190,12 +190,12 @@ const SavedPlants = () => {
                   >
                     Remove from Garden
                   </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </Container>
+                </div>
+              </div>
+            </div>
+          </Row>
+        );
+      })}
       <Button
                     id="removeUserBtns"
                     onClick={() => handleDeleteUser(userData._id)}
