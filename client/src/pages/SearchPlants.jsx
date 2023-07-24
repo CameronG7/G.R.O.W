@@ -55,31 +55,40 @@ const SearchPlants = () => {
   };
 
   const handleSavePlant = async (plantId) => {
-    const plantToSave = searchedPlants.find((plant) => plant.plantId === plantId);
+    // find the book in `searchedBooks` state by the matching id
+    const plantToSave = searchedPlants.find(
+      (plant) => plant.plantId === plantId
+    );
+    console.log(plantToSave, "Save!");
 
+    // Obtain extra data when plant is to be saved
     const response = await fetch(
       `https://perenual.com/api/species/details/${plantId}?key=sk-6j2P64bd54b27794e1650`
     );
     const newData = await response.json();
 
-    plantToSave.waterFreqName = newData.watering_general_benchmark.unit;
-    plantToSave.waterFreqValue = newData.watering_general_benchmark.value;
-    plantToSave.description = newData.description;
+	// Adding new data to the plant object
+	plantToSave.waterFreqName = newData.watering_general_benchmark.unit;
+	plantToSave.waterFreqValue = newData.watering_general_benchmark.value;
+	plantToSave.description = newData.description;
 
+    // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
       return false;
     }
 
+	console.log(plantToSave, "Plant to Save 2")
     try {
       const { data } = await savePlant({
         variables: { input: { ...plantToSave } },
       });
 
       if (!data) {
-        throw new Error("Something went wrong!");
+        throw new Error("something went wrong!");
       }
+	  console.log(data, "DATA");
 
       setSavedPlantIds([...savedPlantIds, plantId]);
     } catch (err) {
