@@ -107,7 +107,8 @@ const SearchPlants = () => {
           flexDirection: "column",
         }}
       >
-        <div
+         <Container
+          id="container"
           style={{
             backgroundColor: "#ad6044",
             display: "flex",
@@ -122,11 +123,13 @@ const SearchPlants = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
+              alignItems: "bottom",
+              
             }}
+            
           >
             <Row>
-              <Col xs={12} md={8}>
+              <Col xs={12} md={8} className="pt-2">
                 <Form.Control
                   name="searchInput"
                   value={searchInput}
@@ -134,10 +137,11 @@ const SearchPlants = () => {
                   type="text"
                   size="lg"
                   placeholder="Search for a plant"
+                  
                 />
               </Col>
-              <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
+              <Col xs={12} md={4} className="mb-1">
+                <Button  type="submit" variant="success" size="lg">
                   Submit
                 </Button>
               </Col>
