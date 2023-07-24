@@ -5,6 +5,10 @@ body {
   flex-direction: column;
 }
 
+.navbar-toggler {
+  background-color: #ad6044;
+}
+
 h1 {
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 3rem;
@@ -69,7 +73,6 @@ h2 {
   cursor: pointer;
   box-shadow: none;
 }
-
 
 .root {
   display: flex;

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
-
 import { useQuery } from "@apollo/client";
 import { QUERY_USER } from "../utils/queries";
 import { useMutation } from "@apollo/client";
-
 import { REMOVE_PLANT, REMOVE_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
 import { removePlantId } from "../utils/localStorage";
@@ -12,45 +10,42 @@ import { removePlantId } from "../utils/localStorage";
 const SavedPlants = () => {
   const [userData, setUserData] = useState({});
   const { loading, error, data } = useQuery(QUERY_USER);
-  const extraPlantData = [];
-  const [removePlant, { errorPlantRemove }] = useMutation(REMOVE_PLANT,
-    {
-      // The update method allows us to access and update the local cache
-      update(cache, { data: { removePlant } }) {
-        try {
-          // First we retrieve existing profile data that is stored in the cache under the `QUERY_PROFILES` query
-          // Could potentially not exist yet, so wrap in a try/catch
-          const { getMe } = cache.readQuery({ query: QUERY_USER });
-          console.log(getMe, "GET ME");
-  
-          // Then we update the cache by combining existing profile data with the newly created data returned from the mutation
-          cache.writeQuery({
-            query: QUERY_USER,
-            // If we want new data to show up before or after existing data, adjust the order of this array
-            data: { getMe:  removePlant },
-          });
-        } catch (e) {
-          console.error(e);
-        }
-      },
-    });
+  const [removePlant, { errorPlantRemove }] = useMutation(REMOVE_PLANT, {
+    // The update method allows us to access and update the local cache
+    update(cache, { data: { removePlant } }) {
+      try {
+        // First we retrieve existing profile data that is stored in the cache under the `QUERY_PROFILES` query
+        // Could potentially not exist yet, so wrap in a try/catch
+        const { getMe } = cache.readQuery({ query: QUERY_USER });
+        console.log(getMe, "GET ME");
+
+        // Then we update the cache by combining existing profile data with the newly created data returned from the mutation
+        cache.writeQuery({
+          query: QUERY_USER,
+          // If we want new data to show up before or after existing data, adjust the order of this array
+          data: { getMe: removePlant },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
 
   const [removeUser, { errorUserRemove }] = useMutation(REMOVE_USER);
 
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData)?.length;
 
-	useEffect(() => {
-		const getUserData = async () => {
-			try {
-         
-				const token = Auth.loggedIn() ? Auth.getToken() : null;
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-				if (!token) {
-          console.log("logged out")
-					return false;
-				}
-      
+        if (!token) {
+          console.log("logged out");
+          return false;
+        }
+
         console.log(data, "First Data");
 
         if (!loading) {
@@ -58,20 +53,17 @@ const SavedPlants = () => {
         }
 
         console.log(userData, "User Data 111111");
-
       } catch (err) {
         console.error(err);
       }
     };
 
-		
+    getUserData();
+  }, [loading, data]);
 
-		getUserData();
-	}, [loading, data]);
-
-	// create function that accepts the book's mongo _id value as param and deletes the book from the database
-	const handleDeletePlant = async (plantId) => {
-		const token = Auth.loggedIn() ? Auth.getToken() : null;
+  // create function that accepts the book's mongo _id value as param and deletes the book from the database
+  const handleDeletePlant = async (plantId) => {
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
       return false;
@@ -152,11 +144,7 @@ const SavedPlants = () => {
           {userData.garden.length ? `` : "Your garden is empty 🙁"}
         </h2>
 
-        <h3
-          style={{
-            marginBottom: "50px",
-          }}
-        >
+        <h3 style={{ marginBottom: "50px" }}>
           {userData.garden.length > 0
             ? userData.garden.length === 1
               ? `Amazing, you have ${userData.garden.length} plant in your garden!`
@@ -165,7 +153,7 @@ const SavedPlants = () => {
         </h3>
       </Container>
 
-      {/* New Style Card */}
+       {/* New Style Card */}
       {userData.garden.map((plant) => {
         return (
           <Row key={plant.plantId} md="4">

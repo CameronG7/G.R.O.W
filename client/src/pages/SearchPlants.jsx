@@ -4,14 +4,11 @@ import { Container, Col, Form, Button, Card, Row } from "react-bootstrap";
 import Auth from "../utils/auth";
 import { savePlantIds, getSavedPlantIds } from "../utils/localStorage";
 import { useMutation } from "@apollo/client";
-import { SAVE_PLANT } from "../utils/mutations"; //
+import { SAVE_PLANT } from "../utils/mutations";
 
 const SearchPlants = () => {
-  // create state for holding returned perenual api data
   const [searchedPlants, setSearchedPlants] = useState([]);
-  // create state for holding our search field data
   const [searchInput, setSearchInput] = useState("");
-  // create state to hold saved plantId values
   const [savedPlantIds, setSavedPlantIds] = useState(getSavedPlantIds());
 
   const [savePlant, { error }] = useMutation(SAVE_PLANT);
@@ -20,7 +17,6 @@ const SearchPlants = () => {
     return () => savePlantIds(savedPlantIds);
   });
 
-  // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -29,18 +25,15 @@ const SearchPlants = () => {
     }
 
     try {
-      //grab api from perenual
       const response = await fetch(
         `https://perenual.com/api/species-list?key=sk-XbST64bd5482645301649&q=${searchInput}`
       );
 
       if (!response.ok) {
-        throw new Error("something went wrong!");
+        throw new Error("Something went wrong!");
       }
 
       const { data } = await response.json();
-      console.log(data, "Nice");
-      console.log(data[0].id);
 
       const plantData = data.map((plant) => ({
         plantId: plant.id,
@@ -51,7 +44,7 @@ const SearchPlants = () => {
         img: plant.default_image?.small_url || "",
         waterFreqName: "",
         waterFreqValue: "",
-		    description: "",
+        description: "",
       }));
 
       setSearchedPlants(plantData);
@@ -61,7 +54,6 @@ const SearchPlants = () => {
     }
   };
 
-  // create function to handle saving a book to our database
   const handleSavePlant = async (plantId) => {
     // find the book in `searchedBooks` state by the matching id
     const plantToSave = searchedPlants.find(
@@ -98,7 +90,6 @@ const SearchPlants = () => {
       }
 	  console.log(data, "DATA");
 
-      // if book successfully saves to user's account, save book id to state
       setSavedPlantIds([...savedPlantIds, plantId]);
     } catch (err) {
       console.error(err);
@@ -109,15 +100,21 @@ const SearchPlants = () => {
 
   return (
     <>
-      <div>
-        <Container
+      <div
+        style={{
+          minHeight: "100vh", // Set the minimum height to fill the whole viewport
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+         <Container
           id="container"
           style={{
             backgroundColor: "#ad6044",
             display: "flex",
             justifyContent: "center",
-            alignItems: "bottom",
-            marginTop: "100px",
+            alignItems: "center",
+            padding: "20px",
           }}
         >
           <h1>Search for your Plant!</h1>
@@ -126,11 +123,13 @@ const SearchPlants = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
+              alignItems: "bottom",
+              
             }}
+            
           >
             <Row>
-              <Col xs={12} md={8}>
+              <Col xs={12} md={8} className="pt-2">
                 <Form.Control
                   name="searchInput"
                   value={searchInput}
@@ -138,10 +137,11 @@ const SearchPlants = () => {
                   type="text"
                   size="lg"
                   placeholder="Search for a plant"
+                  
                 />
               </Col>
-              <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
+              <Col xs={12} md={4} className="mb-1">
+                <Button  type="submit" variant="success" size="lg">
                   Submit
                 </Button>
               </Col>
@@ -215,5 +215,3 @@ const SearchPlants = () => {
 };
 
 export default SearchPlants;
-
-
