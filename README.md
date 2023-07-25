@@ -4,6 +4,7 @@ Gardening Resources on the Web
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
   Link to Github repo: https://github.com/CameronG7/G.R.O.W
+  
   Link to application: https://grow-react-787be2a9ebf7.herokuapp.com/
 
   ## Creators
