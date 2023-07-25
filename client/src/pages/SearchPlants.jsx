@@ -18,13 +18,15 @@ const SearchPlants = () => {
   });
 
   const handleFormSubmit = async (event) => {
+    console.log('submit')
     event.preventDefault();
 
-    if (!searchInput) {
-      return false;
-    }
+    // if (!searchInput) {
+    //   return false;
+    // }
 
     try {
+      console.log('hit try')
       const response = await fetch(
         `https://perenual.com/api/species-list?key=sk-XbST64bd5482645301649&q=${searchInput}`
       );
@@ -34,6 +36,7 @@ const SearchPlants = () => {
       }
 
       const { data } = await response.json();
+      console.log(data, "DATA");
 
       const plantData = data.map((plant) => ({
         plantId: plant.id,
@@ -148,26 +151,20 @@ const SearchPlants = () => {
 
       <Container>
         <Row>
-{/*         
-          {searchedPlants.sunlight ===  ? (
-          <div class="alert alert-info" role="alert" style={{padding:'2px'}}>
-            working on it! Please checkback later!
-          </div> */}
-          {/* ) : ( */}
 
           {/* CAMMMERRRRROOOONNNNNN this is what I got working that i think is fine. */}
-          {searchedPlants.map((plant) => {
-            if (
-              plant.watering ===
+           {searchedPlants.map((plant) => {
+             if (
+               plant.watering ===
               "Upgrade Plans To Premium/Supreme - https://perenual.com/subscription-api-pricing. I'm sorry"
+
             ) {
               return (
                 // <div className="alert alert-info" role="alert" key={plant.plantId} md="4">
                 //   Sorry, not available at this time!
                 // </div>
-				``
               );
-            } else {
+             } else { 
               return (
                 <Col key={plant.plantId} md="4" className="d-flex align-items-stretch">
                   <Card key={plant.plantId} border="dark" className="m-2">
@@ -180,8 +177,10 @@ const SearchPlants = () => {
                     ) : null}
                     <Card.Body>
                       <Card.Title>{plant.scientificName}</Card.Title>
+
                       <p className="small">Common Name: {plant.commonName}</p>
                       <p className="small">☀️ : {plant.sunlight.toLowerCase()}    /    💧: {plant.watering.toLowerCase()}</p>
+
                       {Auth.loggedIn() && (
                         <Button
                           disabled={savedPlantIds?.some(

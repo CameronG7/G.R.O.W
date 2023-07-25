@@ -3,12 +3,14 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "vite.config.js",
+	"type": "module",
 	"scripts": {
 		"start": "node server/server.js",
 		"dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
 		"install": "cd server && npm i && cd ../client && npm i",
-		"build": "cd client && npm run build",
+		"postinstall": "cd client && npm run build --mode=production",
 		"front": "cd client && npm run dev"
+		
 	},
 	"keywords": [],
 	"author": "",
