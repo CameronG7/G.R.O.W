@@ -161,7 +161,7 @@ const SavedPlants = () => {
       {userData.garden.map((plant) => {
         return (
           <Row key={plant.plantId} md="4">
-            <div className="card w-75" style={{ margin: " 0% 0% 2% 4%" }}>
+            <div className="card" id="plantCard">
               <div className="card-img-top align-items-center bg-light savedPlantCard">
                 <div className="col-4">
                   <img
@@ -177,25 +177,25 @@ const SavedPlants = () => {
                   ></img>
                 </div>
                 <div className="col-8">
-                  <h1 className="p-2 pb-0 m-0">{plant.commonName}</h1>
+                  <h1 id="savedText">{plant.commonName}</h1>
                   <h4
-                    className="p-2 pt-0 m-0"
+                    id="savedText"
                     style={{ fontFamily: "Times New Roman" }}
                   >
                     <i>{plant.scientificName}</i>
                   </h4>
-                  <h6 className="p-2 m-0">
+                  <h6 id="savedMain">
                     <strong>Descirption: </strong>
                     {`${plant.description}`}
                   </h6>
-                  <h6 className="p-2 m-0">
+                  <h6  id="savedMain">
                     <strong>Maintenance: </strong>
                     {`It is recommended to place this plant in ${plant.sunlight.toLowerCase()} light.`}
                   </h6>
-                  <h6 className="p-2 m-0">
+                  <h6 id="savedMain">
                     <strong>Watering: </strong>
                   </h6>
-                  <h6 className="p-2 m-0">
+                  <h6 id="savedMain">
                     {plant.waterFreqName !== null &&
                     plant.waterFreqValue !== null
                       ? `Water your ${plant.commonName} every ${
