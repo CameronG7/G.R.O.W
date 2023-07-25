@@ -9,8 +9,11 @@ Gardening Resources on the Web
 
   ## Creators
   Cameron Gardner - https://github.com/CameronG7
+  
   Liza Smirnov - https://github.com/LizaSmirnov
+  
   Edgar Romero - https://github.com/eromeroguti
+  
   Marcus Jonas - https://github.com/mjonas14
 
   ## Description
