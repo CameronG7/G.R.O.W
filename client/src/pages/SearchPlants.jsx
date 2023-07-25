@@ -99,6 +99,13 @@ const SearchPlants = () => {
     }
   };
 
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
   return (
     <>
       <div
@@ -117,7 +124,7 @@ const SearchPlants = () => {
             padding: "20px",
           }}
         >
-          <h1>Search for your Plant!</h1>
+          <h1>🌵Search for your Plant!🌵</h1>
           <Form
             onSubmit={handleFormSubmit}
             style={{
@@ -160,10 +167,10 @@ const SearchPlants = () => {
 
             ) {
               return (
-                // <div className="alert alert-info" role="alert" key={plant.plantId} md="4">
-                //   Sorry, not available at this time!
-                // </div>
-              );
+                 <div className="alert alert-info" role="alert" key={plant.plantId} md="4">
+                   Sorry, not available at this time!
+                 </div>
+              )
              } else { 
               return (
                 <Col key={plant.plantId} md="4" className="d-flex align-items-stretch">
@@ -178,8 +185,8 @@ const SearchPlants = () => {
                     <Card.Body>
                       <Card.Title>{plant.scientificName}</Card.Title>
 
-                      <p className="small">Common Name: {plant.commonName}</p>
-                      <p className="small">☀️ : {plant.sunlight.toLowerCase()}    /    💧: {plant.watering.toLowerCase()}</p>
+                      <p className="small">Common Name: {plant.commonName.toUpperCase()}</p>
+                      <p className="small">☀️ : {capitalizeWords(plant.sunlight)}    /    💧: {capitalizeWords(plant.watering)}</p>
 
                       {Auth.loggedIn() && (
                         <Button
