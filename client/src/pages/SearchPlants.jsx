@@ -105,7 +105,6 @@ const SearchPlants = () => {
     <>
       <div
         style={{
-          minHeight: "100vh", // Set the minimum height to fill the whole viewport
           display: "flex",
           flexDirection: "column",
         }}
@@ -156,17 +155,18 @@ const SearchPlants = () => {
       <Container>
         <Row>
 
-          {searchedPlants.map((plant) => {
-            if (
-              plant.watering ===
+          {/* CAMMMERRRRROOOONNNNNN this is what I got working that i think is fine. */}
+           {searchedPlants.map((plant) => {
+             if (
+               plant.watering ===
               "Upgrade Plans To Premium/Supreme - https://perenual.com/subscription-api-pricing. I'm sorry"
-            ) {
-              return (
-                <div className="alert alert-info" role="alert" key={plant.plantId}>
-                  Sorry, not available at this time!
+             ) {
+               return (
+                 <div className="alert alert-info" role="alert" key={plant.plantId}>
+                   Sorry, not available at this time!
                 </div>
               );
-            } else {
+             } else { 
               return (
                 <Col key={plant.plantId} md="4">
                   <Card key={plant.plantId} border="dark">
@@ -179,8 +179,7 @@ const SearchPlants = () => {
                     ) : null}
                     <Card.Body>
                       <Card.Title>{plant.scientificName}</Card.Title>
-                      <p className="small">Common Name: {plant.commonName}</p>
-                      <p className="small">Description: {plant.description}</p>
+                      <p className="large">Common Name: {plant.commonName.toUpperCase()}</p>
                       <p className="small">Sunlight: {plant.sunlight}</p>
                       <p className="small">Watering: {plant.watering}</p>
                       {Auth.loggedIn() && (
