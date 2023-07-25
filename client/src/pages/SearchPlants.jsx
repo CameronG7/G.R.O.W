@@ -99,8 +99,6 @@ const SearchPlants = () => {
     }
   };
 
-  
-
   return (
     <>
       <div
@@ -139,7 +137,6 @@ const SearchPlants = () => {
                   type="text"
                   size="lg"
                   placeholder="Search for a plant"
-                  
                 />
               </Col>
               <Col xs={12} md={4} className="mb-1">
@@ -160,16 +157,17 @@ const SearchPlants = () => {
              if (
                plant.watering ===
               "Upgrade Plans To Premium/Supreme - https://perenual.com/subscription-api-pricing. I'm sorry"
-             ) {
-               return (
-                 <div className="alert alert-info" role="alert" key={plant.plantId}>
-                   Sorry, not available at this time!
-                </div>
+
+            ) {
+              return (
+                // <div className="alert alert-info" role="alert" key={plant.plantId} md="4">
+                //   Sorry, not available at this time!
+                // </div>
               );
              } else { 
               return (
-                <Col key={plant.plantId} md="4">
-                  <Card key={plant.plantId} border="dark">
+                <Col key={plant.plantId} md="4" className="d-flex align-items-stretch">
+                  <Card key={plant.plantId} border="dark" className="m-2">
                     {plant.img ? (
                       <Card.Img
                         src={plant.img}
@@ -179,9 +177,10 @@ const SearchPlants = () => {
                     ) : null}
                     <Card.Body>
                       <Card.Title>{plant.scientificName}</Card.Title>
-                      <p className="large">Common Name: {plant.commonName.toUpperCase()}</p>
-                      <p className="small">Sunlight: {plant.sunlight}</p>
-                      <p className="small">Watering: {plant.watering}</p>
+
+                      <p className="small">Common Name: {plant.commonName}</p>
+                      <p className="small">☀️ : {plant.sunlight.toLowerCase()}    /    💧: {plant.watering.toLowerCase()}</p>
+
                       {Auth.loggedIn() && (
                         <Button
                           disabled={savedPlantIds?.some(

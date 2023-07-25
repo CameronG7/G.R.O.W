@@ -114,12 +114,6 @@ h6 {
   font-size: 18px;
 }
 
-@media only screen and (max-width: 900px) {
-  .savedPlantCard {
-    display: flex;
-    flex-direction: column; 
-  }
-}
 .navbar-toggler-icon{
   background-image: none;
   border-radius: 5px;
@@ -130,4 +124,45 @@ h6 {
   font-weight: 600;
   cursor: pointer;
   box-shadow: none;
+}
+
+#plantCard {
+  width: 75%;
+  margin: 0% 0% 2% 4%;
+}
+
+#savedMain {
+  padding: 2%; 
+  margin: 0%;
+}
+
+@media only screen and (max-width: 900px) {
+
+  #plantCard {
+    width: 100%;
+    margin: 2%;
   }
+
+  .savedPlantCard {
+    display: flex;
+    flex-direction: column; 
+  }
+
+  #savedMain {
+    padding-left: 0%;
+  }
+
+  #savedText {
+    text-align: center;
+  }
+
+  #removeUserBtns {
+    margin-left: 2%;
+    width: 100%;
+  }
+
+  #removePlantBtn {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
