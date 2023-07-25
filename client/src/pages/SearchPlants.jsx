@@ -211,6 +211,7 @@ const SearchPlants = () => {
           })}
         </Row>
       </Container>
+	<div style={{minHeight:"40vh"}}></div>
     </>
   );
 };
