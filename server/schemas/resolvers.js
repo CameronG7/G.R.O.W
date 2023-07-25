@@ -89,9 +89,9 @@ const resolvers = {
 
     removeUser: async (parent, { userId }, context) => {
       if (context.user) {
-        const user = await User.findByIdAndDelete(
+        const deletedUser = await User.findByIdAndDelete(
           { _id: context.user._id });
-          return user;
+          return deletedUser;
       }
     }
   },
