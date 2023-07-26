@@ -42,6 +42,8 @@ Gardening Resources on the Web
    ![Express Badge](https://img.shields.io/badge/Express-000?logo=express&logoColor=fff&style=flat) ![GraphQL Badge](https://img.shields.io/badge/GraphQL-E10098?logo=graphql&logoColor=fff&style=flat) ![MongoDB Badge](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=fff&style=flat) ![Mongoose Badge](https://img.shields.io/badge/Mongoose-800?logo=mongoose&logoColor=fff&style=flat) ![Apollo GraphQL Badge](https://img.shields.io/badge/Apollo%20GraphQL-311C87?logo=apollographql&logoColor=fff&style=flat)
    ![Vite](https://img.shields.io/badge/Vite-fbca1f?logo=vite&logoColor=fff&style=flat)
 
+[Perenual](https://perenual.com/docs/api) api 
+
   ## Contributing
 
   This app was refactored to deploy to Heroku as a CRA app instead of Vite, if you would like to see that repo it can be found [here.](https://github.com/CameronG7/G.R.O.W_refactor)
