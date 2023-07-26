@@ -39,7 +39,8 @@ Gardening Resources on the Web
     
 
   ## Contributing
-  N/A
+
+  This app was refactored to deploy to Heroku as a CRA app instead of Vite, if you would like to see that repo it can be found [here.](https://github.com/CameronG7/G.R.O.W_refactor)
 
   ## Tests
   N/A
