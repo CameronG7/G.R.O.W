@@ -48,6 +48,9 @@ Gardening Resources on the Web
   If you have any questions, please dont hesitate to reach one of the creators at the email addresses listed below! 
 
   Cameron Gardner: cameron.gardner777@gmail.com
+  
   Liza Smirnov: krasnienkov@gmail.com
+  
   Edgar Romero: eromeroguti@gmail.com
+  
   Marcus Jonas: marcus.jonas14@gmail.com
