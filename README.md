@@ -36,7 +36,11 @@ Gardening Resources on the Web
   ## License
   This project has a MIT License license. For details about its restrictions and rules, please follow the link below:  
     [MIT License](https://opensource.org/licenses/MIT)  
-    
+
+  ## Credits
+
+   ![Express Badge](https://img.shields.io/badge/Express-000?logo=express&logoColor=fff&style=flat) ![GraphQL Badge](https://img.shields.io/badge/GraphQL-E10098?logo=graphql&logoColor=fff&style=flat) ![MongoDB Badge](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=fff&style=flat) ![Mongoose Badge](https://img.shields.io/badge/Mongoose-800?logo=mongoose&logoColor=fff&style=flat) ![Apollo GraphQL Badge](https://img.shields.io/badge/Apollo%20GraphQL-311C87?logo=apollographql&logoColor=fff&style=flat)
+   ![Vite](https://img.shields.io/badge/Vite-fbca1f?logo=vite&logoColor=fff&style=flat)
 
   ## Contributing
 
