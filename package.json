@@ -8,10 +8,9 @@
 		"start": "node server/server.js",
 		"dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
 		"install": "cd server && npm i && cd ../client && npm i",
-		"postinstall": "cd client && npm run serve",
+		"postinstall": "cd client && npm run preview",
 		"front": "cd client && npm run dev",
 		"serve": "cd client && npm run serve"
-		
 	},
 	"keywords": [],
 	"author": "",
