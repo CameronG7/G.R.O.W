@@ -10,10 +10,18 @@ export default defineConfig({
     open: true,
     proxy: {
       "/graphql": {
-        target: "http://localhost:5174",
+        target: "http://0.0.0.0:5000/",
         changeOrigin: true,
         secure: false,
+        ws: true,
       },
+    }
+  },
+  build: {
+    outDir: "dist",
+    assetsDir: "static",
+    rollupOptions: {
+      input: "index.html"
     }
   }
 })

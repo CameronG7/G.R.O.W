@@ -110,6 +110,7 @@ const SearchPlants = () => {
     <>
       <div
         style={{
+          
           display: "flex",
           flexDirection: "column",
         }}
@@ -211,7 +212,7 @@ const SearchPlants = () => {
           })}
         </Row>
       </Container>
-	<div style={{minHeight:"40vh"}}></div>
+      <div style={{minHeight:"40vh"}}></div>
     </>
   );
 };
